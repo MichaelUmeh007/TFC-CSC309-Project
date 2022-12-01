@@ -1,0 +1,861 @@
+{
+	"info": {
+		"_postman_id": "d3932139-50f2-4d1a-a5f0-92f821d2ce76",
+		"name": "309 Project API",
+		"description": "**CSC309 Project Backend API Documentation**\n\nThis documentation contains the endpoints, along with descriptions and examples of payloads, for all the functionality defined in the Project's User Stories.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24509501"
+	},
+	"item": [
+		{
+			"name": "Register New User (Create)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "patientzero2",
+							"type": "default"
+						},
+						{
+							"key": "first_name",
+							"value": "Patient",
+							"type": "default"
+						},
+						{
+							"key": "last_name",
+							"value": "Zero",
+							"type": "default"
+						},
+						{
+							"key": "email",
+							"value": "patientzero@uhn.ca",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "Sickness123$",
+							"type": "default"
+						},
+						{
+							"key": "phone_number",
+							"value": "+14167236514",
+							"type": "default"
+						},
+						{
+							"key": "address",
+							"value": "100 Queen St. W",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/register/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"register",
+						""
+					]
+				},
+				"description": "Create a new user in the system. View for endpoint creates a GUser object which is our group's extension of the default User model provided by Django.\n\n```\nRequest Body: (Form Data)\n    username: string\n    first_name: string\n    last_name: string\n    email: string (valid email address - example@example.com)\n    password: string\n    avatar: image_url\n    phone_number: string | Format: +1XXXYYYZZZZ\n    address: string | Format: XXX Street Name St., City, Province Code\nAuthorization: None\nResponse Body: Payload\nSuccess response:\n{\n    \"username\": \"user_name\",\n    \"first_name\": \"user_first_name\",\n    \"last_name\": \"user_last_name\",\n    \"email\": \"user@example.com\",\n    \"password\": \"hashed_password_string\",\n    \"address\": \"XXX User Address, City, Province\",\n    \"phone_number\": \"+1XXXYYYZZZZ\"\n}\nFailure Response:\n{\n    \"field_name\": [\n        \"Error message\"\n    ],\n    ...\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "User Login (Get Auth Token)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "patientzero1",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "Sickness123$",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/api/token/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"api",
+						"token",
+						""
+					]
+				},
+				"description": "Endpoint for user to send a login request to. They must provide their username and password into the request body as form data, which will be authenticated by the server. Upon success, user will receive an access token and a refresh token. Upon failure, they will receive an error message and must try logging in again. This endpoint uses DRF's simple-jwt library to handle all token operations.\n\n```\nRequest Body: (Form data)\n    username: string\n    password: string\nAuthorization: None\nResponse Body: Payload\nSuccessful response:\n{\n    \"refresh\": \"refresh_token_string\",\n    \"access\": \"access_token_string\"\n}\nFailure response:\n{\n    \"detail\": \"No active account found with the given credentials\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Token Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY2ODk2ODQxMiwiaWF0IjoxNjY4ODgyMDEyLCJqdGkiOiJjYjM2MGZjNTZiOWM0NWYzOGY0NDhkZTA5Zjg3MTcxZCIsInVzZXJfaWQiOjN9.UWs0ssVfW3l01i0nttGgpMnIprAWE4XbE3sesG5iX8k",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/api/token/refresh/?",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"api",
+						"token",
+						"refresh",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				},
+				"description": "Endpoint that allows user to make a request to get a new access_token if their old one expires (handled by the simple-jwt library).\n\n```\nRequest body: (Form Data)\n    refresh \"refresh_token_string\"\nAuthorization: None\nResponse body: (Payload)\nSuccessful Response (200 OK)\n{\n    \"access\": \"access_token_string\"\n}\nFailure Response (401 Unauthorized)\n{\n    \"detail\": \"Token is invalid or expired\",\n    \"code\": \"token_not_valid\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View User Profile Details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						""
+					]
+				},
+				"description": "View user profile information; first and last name, email, avatar, and phone number.\n\n```\nRequest Body: (None)\nAuthorization: Bearer Token\nResponse Body: (Payload)\nSuccessful Response (200 OK):\nSuccess response:\n{\n    \"first_name\": \"user_first_name\",\n    \"last_name\": \"user_last_name\",\n    \"email\": \"user@example.com\",\n    \"password\": \"hashed_password_string\",\n    \"address\": \"XXX User Address, City, Province\"\n}\nUnsuccessful response (401 UNAUTHORIZED):\n{\n    \"error\": \"User not authorized\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User Profile Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "Fat",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Sunny",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "django@unc.al",
+							"type": "text"
+						},
+						{
+							"key": "phone_number",
+							"value": "+14165514567",
+							"type": "text"
+						},
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/Users/lazarus/Downloads/wallpaperflare.com_wallpaper.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						""
+					]
+				},
+				"description": "```\nRequest Body: (Form Data)\n    first_name: string\n    last_name: string\n    email: string (valid email address - example@example.com)\n    avatar: image_file\n    phone_number: string | Format: +1XXXYYYZZZZ\nAuthorization: Bearer Token\nResponse Body: Payload\nSuccess response:\n{\n    \"first_name\": \"user_first_name\",\n    \"last_name\": \"user_last_name\",\n    \"email\": \"user@example.com\",\n    \"password\": \"hashed_password_string\",\n    \"address\": \"XXX User Address, City, Province\"\n}\nFailure Response:\n{\n    \"field_name\": [\n        \"Error message\"\n    ],\n    ...\n}\nUnsuccessful Response (404 NOT FOUND):\n{\n    \"error\": G user not found\"\n}\n\n```\n\nEdit any number of user profile details; first and last name, email, avatar, and phone number."
+			},
+			"response": []
+		},
+		{
+			"name": "View User Classes Schedule and HIstory",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/classes/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						"classes",
+						""
+					]
+				},
+				"description": "Lists logged in users class schedule and history in chronological order.\n\n```\nRequest body: None\nAuthorization: Bearer Token\nResponse Body (Payload):\nSample Successful Response (200 OK):\n{\n    \"count\": 11,\n    \"next\": \"http://127.0.0.1:8000/studios/3/classes/schedule/?page=2\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-16T18:00:00Z\",\n            \"end_datetime\": \"2022-11-16T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-18T16:00:00Z\",\n            \"end_datetime\": \"2022-11-18T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-23T18:00:00Z\",\n            \"end_datetime\": \"2022-11-23T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-25T16:00:00Z\",\n            \"end_datetime\": \"2022-11-25T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-30T18:00:00Z\",\n            \"end_datetime\": \"2022-11-30T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-02T16:00:00Z\",\n            \"end_datetime\": \"2022-12-02T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-07T18:00:00Z\",\n            \"end_datetime\": \"2022-12-07T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-09T16:00:00Z\",\n            \"end_datetime\": \"2022-12-09T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-14T18:00:00Z\",\n            \"end_datetime\": \"2022-12-14T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-16T16:00:00Z\",\n            \"end_datetime\": \"2022-12-16T17:00:00Z\",\n            \"num_attending\": 0\n        }\n    ]\n}\nUnsuccessful Response (404 NOT FOUND):\n{\n    \"error\": G user not found\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View User Payment information",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/payment/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						"payment",
+						""
+					]
+				},
+				"description": "View the current payment details for logged in User.\n\n```\nRequest Body: (None)\nAuthorization: Bearer Token\nResponse Body: (Payload)\nSuccessful Response (200 OK):\nSuccess response:\n{\n    \"cc_number\" : \"4716495763552956\"\n    \"cc_expiry\" : \"2002-03-05\"\n    \"cc_code\" :  \"123\"\n}\nUnsuccessful Response (404 NOT FOUND):\n{\n    \"error\": G user not found\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User Payment Information",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "cc_number",
+							"value": "4716495763552956",
+							"type": "text"
+						},
+						{
+							"key": "cc_expiry",
+							"value": "2025-05-09",
+							"type": "text"
+						},
+						{
+							"key": "cc_code",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/payment/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						"payment",
+						""
+					]
+				},
+				"description": "Edit some or all of a users payment information, including credit card number, expiry date and security code.\n\n```\nRequest Body: (Form Data)\n    cc_number: String | valid credit card number\n    cc_expiry: String | format: YYYY-MM-DD\n    cc_code: String | valid three number security code\nAuthorization: Bearer Token\nResponse Body: Payload\nSuccessful Response (200 OK):\nSuccess response:\n{\n    \"cc_number\" : \"4716495763552956\"\n    \"cc_expiry\" : \"2002-03-05\"\n    \"cc_code\" :  \"123\"\n}\nUnsuccessful Response (404 NOT FOUND):\n{\n    \"error\": G user not found\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View Studio Details (by ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/:id/details/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":id",
+						"details",
+						""
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				},
+				"description": "Displays details for a particular studio, including name, location information, phone number, and a link to directions from user's address to studio in Google Maps.\n\n```\nRequest Body: (None)\nAuthorization: Bearer Token\nResponse Body: (Payload)\nSuccessful Response (200 OK):\n{\n    \"name\": \"studio_name\",\n    \"address\": \"studio_address\",\n    \"latitude\": \"studio_lat\",\n    \"longitude\": \"studio_long\",\n    \"postal_code\": \"MMM BBB\",\n    \"phone_number\": \"+1XXXYYYZZZZ\",\n    \"directions\": \"https://www.google.com/maps/dir/?api=1&origin=100 Queen St. W&destination=380 The East Mall, Etobicoke, ON&travelmode=driving\"\n}\nUnsuccessful response (404 NOT FOUND):\n{\n    \"error\": \"Studio not found\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "List All Studios",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/all/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						"all",
+						""
+					]
+				},
+				"description": "For a logged in user only, display all of TFC's studios in order of geographical proximity to user (closest to farthest).\n\n```\nRequest Body: none\nAuthorization: Bearer Token\nResponse Body: Payload\nSuccessful response (200 OK):\n[\n    {\n        \"name\": \"Studio 1\",\n        \"address\": \"Studio 1 Address\",\n        \"latitude\": \"XX.XXXXXX\",\n        \"longitude\": \"-YY.YYYYYY\",\n        \"postal_code\": \"MMM MMM\",\n        \"phone_number\": \"+14165328761\"\n    },\n    {\n        \"name\": \"Studio 2\",\n        \"address\": \"Studio 2 Address\",\n        \"latitude\": \"XX.XXXXXX\",\n        \"longitude\": \"-YY.YYYYYY\",\n        \"postal_code\": \"MMM MMM\",\n        \"phone_number\": \"+14165328761\"\n    },\n    ...\n]\n    \nUnsuccessful Response (401 Unauthorized) - No authentication\n{\n    \"error\": \"User not authorized\"\n}\n    \n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View Class Details (by ID)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/:studio_id/classes/:class_id/details/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":studio_id",
+						"classes",
+						":class_id",
+						"details",
+						""
+					],
+					"variable": [
+						{
+							"key": "studio_id",
+							"value": "3"
+						},
+						{
+							"key": "class_id",
+							"value": "3"
+						}
+					]
+				},
+				"description": "View the details for a specific class, specified by a positive integer value provided for the \"class_id\" path variable. A class belongs to a specific studio, in this case, the one corresponding to the value of the \"studio_id\" path variable.\n\n```\nRequest body: None\nAuthorization: Bearer Token\nResponse Body: (Payload)\nSuccessful Response (200 OK):\n{\n    \"id\": 3,\n    \"name\": \"Spin Class\",\n    \"description\": \"Get your cardio in with some cycling!\",\n    \"coach\": \"1\",\n    \"capacity\": 20,\n    \"start_datetime\": \"2022-11-11T16:00:00Z\",\n    \"end_datetime\": \"2022-12-23T17:00:00Z\",\n    \"duration\": \"01:00:00\",\n    \"is_recurring\": true,\n    \"studio\": 3,\n    \"dates\": [\n        \"2022-11-18T16:00:00Z\",\n        \"2022-11-25T16:00:00Z\",\n        \"2022-12-02T16:00:00Z\",\n        \"2022-12-09T16:00:00Z\",\n        \"2022-12-16T16:00:00Z\"\n    ]\n}\nFailure Response (404 NOT FOUND):\n{\n    \"error\": \"Class not found\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "List Classes for Studio",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/:studio_id/classes/all/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":studio_id",
+						"classes",
+						"all",
+						""
+					],
+					"variable": [
+						{
+							"key": "studio_id",
+							"value": "3"
+						}
+					]
+				},
+				"description": "Lists the details for all classes held by the studio corresponding to the value of the \"studio_id\" path variable.\n\n```\nRequest Body: None\nAuthorization: Bearer Token\nResponse Body (payload)\nSample successful response (200 OK):\n{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 2,\n            \"name\": \"Yoga\",\n            \"description\": \"Students can come to learn the ways of the Yogi.\",\n            \"coach\": \"1\",\n            \"capacity\": 25,\n            \"start_datetime\": \"2022-11-16T18:00:00Z\",\n            \"end_datetime\": \"2022-12-28T19:00:00Z\",\n            \"duration\": \"01:00:00\",\n            \"is_recurring\": true,\n            \"studio\": 3\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Spin Class\",\n            \"description\": \"Get your cardio in with some cycling!\",\n            \"coach\": \"1\",\n            \"capacity\": 20,\n            \"start_datetime\": \"2022-11-11T16:00:00Z\",\n            \"end_datetime\": \"2022-12-23T17:00:00Z\",\n            \"duration\": \"01:00:00\",\n            \"is_recurring\": true,\n            \"studio\": 3\n        }\n    ]\n}\nFailure response (404 NOT FOUND):\n{\n    \"error\": \"Studio not found.\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View Class Schedule",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/:id/classes/schedule/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":id",
+						"classes",
+						"schedule",
+						""
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "99"
+						}
+					]
+				},
+				"description": "Retrieves a list of all instances of each class for the studio corresponding to the value of the path variable \"studio_id\". Shows key details for instances of all classes, and orders them by order in which they occur (ascending order of datetime).\n\n```\nRequest body: None\nAuthorization: Bearer Token\nResponse Body (Payload):\n\nSample Successful Response (200 OK):\n{\n    \"count\": 11,\n    \"next\": \"http://127.0.0.1:8000/studios/3/classes/schedule/?page=2\",\n    \"previous\": null,\n    \"results\": [\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-16T18:00:00Z\",\n            \"end_datetime\": \"2022-11-16T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-18T16:00:00Z\",\n            \"end_datetime\": \"2022-11-18T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-23T18:00:00Z\",\n            \"end_datetime\": \"2022-11-23T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-25T16:00:00Z\",\n            \"end_datetime\": \"2022-11-25T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-30T18:00:00Z\",\n            \"end_datetime\": \"2022-11-30T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-02T16:00:00Z\",\n            \"end_datetime\": \"2022-12-02T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-07T18:00:00Z\",\n            \"end_datetime\": \"2022-12-07T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-09T16:00:00Z\",\n            \"end_datetime\": \"2022-12-09T17:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Yoga\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-14T18:00:00Z\",\n            \"end_datetime\": \"2022-12-14T19:00:00Z\",\n            \"num_attending\": 0\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-12-16T16:00:00Z\",\n            \"end_datetime\": \"2022-12-16T17:00:00Z\",\n            \"num_attending\": 0\n        }\n    ]\n}\nFailure Response (404 NOT FOUND):\n{\n    \"error\": \"Studio not found.\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Drop/Enrol in Class as User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"action\": \"enrol\",\n    \"all\": \"false\",\n    \"dates\": [\"2022-11-18T16:00:00Z\", \"2022-11-25T16:00:00Z\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/studios/:studio_id/classes/:class_id/enrollment/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":studio_id",
+						"classes",
+						":class_id",
+						"enrollment",
+						""
+					],
+					"variable": [
+						{
+							"key": "studio_id",
+							"value": "3"
+						},
+						{
+							"key": "class_id",
+							"value": "3"
+						}
+					]
+				},
+				"description": "If \"action\" is \"enrol\", enrol in a specific class (corresponds to the one in studio with id \"studio_id\" and with class id \"class_id\") if the user is not already enrolled in it. Adds this class to the set of classes the logged in user is attending. If action is \"drop\", drop this class for the logged in user if they are enrolled in it. If \"all\" is set to true, no dates need to be provided; user will be either enrolled to all future dates, or dropped from all future dates. If \"all\" is \"false\", dates must be provided in the format \"2022-11-18T16:00:00Z\" into the list \"dates\".\n\n```\nResponse body: JSON\nSamples:\n{\n    \"action\": \"enrol\",\n    \"all\": \"true\",\n    \"dates\": []\n}\n{\n    \"action\": \"drop\",\n    \"all\": \"false\",\n    \"dates\": [\"2022-11-28T16:00:00Z\", \"2022-12-04T16:00:00Z\"]\n}\nAuthorization: Bearer Token\nResponse body (Payload):\nSuccessful Enrol or Drop (lists all dates enrolled in/dropped from):\n{\n    \"successes\": [\n        \"2022-11-18T16:00:00Z\",\n        \"2022-11-25T16:00:00Z\",\n        \"2022-12-02T16:00:00Z\",\n        \"2022-12-09T16:00:00Z\",\n        \"2022-12-16T16:00:00Z\"\n    ]\n}\nFailure Response (404 NOT FOUND):\n{\n    \"error\": \"Studio not found.\"\n}\nFailure Response (400 BAD REQUEST) - if improper action attribute sent:\n{\n    \"error\": \"Not a valid operation\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Classes By Single Search Criterion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/:studio_id/classes/filter",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						":studio_id",
+						"classes",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "start_date_time",
+							"value": "2022-11-16T18:00:00Z",
+							"disabled": true
+						},
+						{
+							"key": "end_date_time",
+							"value": "2022-11-30T19:00:00Z",
+							"disabled": true
+						},
+						{
+							"key": "class_name",
+							"value": "Yoga",
+							"disabled": true
+						},
+						{
+							"key": "coach",
+							"value": "jack",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "studio_id",
+							"value": "3"
+						}
+					]
+				},
+				"description": "Filters all of the classes for the studio given by the path variable \"studio_id\", by date, name of the class, or coach name (only one criterion at a time, cannot mix multiple search terms).\n\n```\nRequest Body: None\nQuery Parameter Options (one at a time except for datetime, start and end must be used together):\n    start_date_time:yyyy-mm-ddThh:mm:ssZ\n    end_date_time:yyyy-mm-ddThh:mm:ssZ\n    class_name=String\n    coach=String\nAuthorization: Bearer Token\nSample Response Body:\nSuccess (200 OK):\n{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-18T16:00:00Z\",\n            \"end_datetime\": \"2022-11-18T17:00:00Z\",\n            \"num_attending\": 1\n        },\n        {\n            \"name\": \"Spin Class\",\n            \"coach\": \"1\",\n            \"start_datetime\": \"2022-11-25T16:00:00Z\",\n            \"end_datetime\": \"2022-11-25T17:00:00Z\",\n            \"num_attending\": 1\n        }\n    ]\n}\nSuccess (but no matches):\n{\n    \"count\": 0,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": []\n}\nFailure (404 NOT FOUND):\n{\n    \"error\": \"Studio not found.\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Studios by Single Search Criterion",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/studios/filter?coach=Billy Bob",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"studios",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "class_name",
+							"value": "Yoga",
+							"disabled": true
+						},
+						{
+							"key": "coach",
+							"value": "Billy Bob"
+						},
+						{
+							"key": "amenity",
+							"value": "massages",
+							"disabled": true
+						},
+						{
+							"key": "studio_name",
+							"value": "Bay and College Studio",
+							"disabled": true
+						},
+						{
+							"key": "fake",
+							"value": "data",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Filters all TFC studios in the system by name of class, coach name, amenity type, or studio name (only filters by one criterion at a time, cannot mix multiple). If a filter is performed for a category that is not listed above, it is treated as a bad search and all studios will be returned.\n\n```\nRequest Body: None\nQuery Parameters (one at a time):\n    class_name=String\n    amenity=String\n    coach=String\n    studion_name=String\nAuthorization: Bearer Token\nResponse Body: Payload\n \nSuccessful Response (200 OK):\n{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"name\": \"Etobicoke Studio\",\n            \"address\": \"380 The East Mall, Etobicoke, ON\",\n            \"latitude\": \"43.646968\",\n            \"longitude\": \"-79.559501\",\n            \"postal_code\": \"M9B 6L5\",\n            \"phone_number\": \"+14166958777\"\n        }\n    ]\n}\nFailing requests are very unlikely, system is robustly built to provide some response even under nonsensical searches.\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View All Subscriptions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/subscriptions/options/?page=1",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"subscriptions",
+						"options",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				},
+				"description": "Display all of TFC's subscription options in a paginated format: each page contains 10 subscriptions. If the page is not specified, the request defaults to displaying the first page.\n\n```\nRequest Body: None\nQuery Parameters: \n    page=Integer\nAuthorization: Bearer Token\nSample Response Body:\nSuccess (200 OK):\n{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"type\": \"yearly\",\n            \"cost\": \"149.99\"\n        },\n        {\n            \"type\": \"monthly\",\n            \"cost\": \"19.99\"\n        }\n    ]\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Create/Update a Subscription as User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "type",
+							"value": "monthly",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "yearly",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/subscriptions/subscribe/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"subscriptions",
+						"subscribe",
+						""
+					]
+				},
+				"description": "Create/Update the currently logged-in user's subscription based on what is sent in the request body. Returns a JSON representation of a Transaction.\n\nFails when the request body is invalid, the user is not authenticated, or the user attempts to subscribe to their current plan.\n\nIn the case of update, all future payments are cancelled and replaced.\n\nWhen the user selects a monthly subscription, 12 Transaction objects are made to represent the next 12 payments for the year. Each transaction is spaced a month apart, starting from the current date.\n\nWhen the user selects a yearly subscription, 2 Transaction objects are made to represent the payment for this year and the next. The transactions are spaced a year apart, starting from the current date.\n\n```\nRequest Body:\n    type=String\nQuery Parameter Options: None\nAuthorization: Bearer Token\nSuccess (200 OK):\n{\n    \"amount\": \"19.99\",\n    \"timestamp\": \"2022-11-18T23:23:58.444159Z\"\n}\nFailure (401 Unauthorized):\n{\n    \"error\": \"User not authorized\"\n}\nFailure (400 Bad Request):\n{\n    \"error\": \"invalid request body\"\n}\nFailure (400 Bad Request):\n{\n    \"error\": \"You are already subscribed to this plan\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel the User Subscription",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/subscriptions/cancel/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"subscriptions",
+						"cancel",
+						""
+					]
+				},
+				"description": "Cancels the currently logged-in user's subscription. Deletes all future payments and invalidates all class bookings after the current billing period.\n\nFails if the user doesn't have a subscription or if the user is not authenticated.\n\n```\nRequest Body: None\nQuery Parameter Options: None\nAuthorization: Bearer Token\nSample Response Body:\nSuccess (200 OK):\n{\n    \"your subscription\": null\n}\nFailure (400 Bad Request):\n{\n    \"error\": \"User subscription doesn't exist\"\n}\nFailure (401 Unauthorized):\n{\n    \"error\": \"User not authorized\"\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "View Payment History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/accounts/profile/payment-history",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"accounts",
+						"profile",
+						"payment-history"
+					]
+				},
+				"description": "Displays the logged-in user's payment history and the upcoming payment, if it exists.\n\n```\nRequest Body: None\nQuery Parameter Options: None\nAuthorization: Bearer Token\nSample Request Body:\nSuccess (200 OK):\n{\n    \"payment_history\": [\n        {\n            \"amount\": 19.99,\n            \"timestamp\": \"2022-11-19T01:39:38.066492Z\"\n        }\n    ],\n    \"next_payment\": {\n        \"amount\": \"19.99\",\n        \"timestamp\": \"2022-12-19T01:39:38.083553Z\"\n    }\n}\nFailure (401 Unauthorized):\n{\n    \"error\": \"User not authorized\"\n}\n\n```"
+			},
+			"response": []
+		}
+	]
+}
