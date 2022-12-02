@@ -42,10 +42,23 @@ class SubscribeView(APIView):
         # get the subscriptions
         subscriptions = Subscription.objects.all()
 
-        # # check user authorization
+        # check user authorization
         try:
             user = User.objects.get(username=request.user.username)
             guser = GUser.objects.get(user=user)
+
+            # check if the user has a card added
+            if guser.payment_info == None:
+                return Response({"error": "Please add payment information before subscribing"}, status=400)
+
+            # get expiry date of the card
+            card_expiry_list = str(guser.payment_info.cc_expiry).split("-")
+            card_expiry_date = timezone.datetime(int(card_expiry_list[0]), int(card_expiry_list[1]), int(card_expiry_list[2])).date()
+            card_expired = timezone.now().date() > card_expiry_date
+            # check if the card is expired
+            if card_expired:
+                return Response({"error": "Your card has expired, please update your card info"}, status=400)
+
             # all transactions of the user
             transactions = Transaction.objects.filter(user=guser)
             
@@ -66,19 +79,31 @@ class SubscribeView(APIView):
             
             # create/updates new transactions (payments), first transaction is immediately after request is sent
 
-            # if we need to update the current subscription, delete all future transactions
+            # UPDATE case:
             if current_subscription:
-                transactions.filter(timestamp__gt=timezone.now()).delete()
+                # get the very next transaction
+                first_payment = transactions.filter(timestamp__gt=timezone.now()).first();
 
-            if new_subscription.type == "monthly":
-                # user wants to subscribe to monthly plan, create new transactions for the next 12 months
+                # delete all future transactions
+                transactions.filter(timestamp__gt=timezone.now()).delete()
+                # change the amount of the next transaction based on what the user wants to change it to
+                first_payment.amount = new_subscription.cost
+                # add transaction back to database
+                Transaction.objects.create(user=guser, amount=first_payment.amount, timestamp=first_payment.timestamp)
+                # update the user
+                guser.transaction_set.add(first_payment)
+                guser.save()
+            
+            # CREATE case: need to create a lot of new subscriptions
+            elif new_subscription.type == "monthly":
+                # create new transactions for the next 12 months
                 for i in range(0, 12):
                     new_transaction = Transaction.objects.create(user=guser, amount=new_subscription.cost, timestamp=timezone.now()+relativedelta(months=i))
                     # store the first payment for a return
                     if i == 0:
                         first_payment = new_transaction
             elif new_subscription.type == "yearly":
-                # user wants to subscribe to year plan, create 2 new transactions, 1 for this year and 1 for the next year
+                # create 2 new transactions, 1 for this year and 1 for the next year
                 for i in range(0, 2):
                     new_transaction = Transaction.objects.create(user=guser, amount=new_subscription.cost, timestamp=timezone.now()+relativedelta(years=i))
                     if i == 0:
@@ -108,24 +133,24 @@ class CancelSubscriptionsView(APIView):
         #future transactions
         future_payments = transactions.filter(timestamp__gt=timezone.now())
 
-        # if there are classes for the user, then cancel all classes past the last payment time
-        if guser.class_occurrences.all():
-            # get the first class occurence of the user and get the date of the first class
-            user_classes = guser.class_occurrences.all()
-            first_class = user_classes.order_by('start_datetime').first()
-            first_class_date = first_class.start_datetime
-            # first_class_date = datetime(2002, 1, 1, 0, 0, 0)
+        # # if there are classes for the user, then cancel all classes past the last payment time
+        # if guser.class_occurrences.all():
+        #     # get the first class occurence of the user and get the date of the first class
+        #     user_classes = guser.class_occurrences.all()
+        #     first_class = user_classes.order_by('start_datetime').first()
+        #     first_class_date = first_class.start_datetime
+        #     # first_class_date = datetime(2002, 1, 1, 0, 0, 0)
             
-            # get next payment date
-            next_payment = future_payments.order_by('timestamp').first()
-            # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
-            next_payment_date = next_payment.timestamp - relativedelta(days=1) 
+        #     # get next payment date
+        #     next_payment = future_payments.order_by('timestamp').first()
+        #     # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
+        #     next_payment_date = next_payment.timestamp - relativedelta(days=1) 
 
-            # get all the recurrences between the first class and the next payment date and set it to the user's occurences
-            guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
-            guser.save()
+        #     # get all the recurrences between the first class and the next payment date and set it to the user's occurences
+        #     guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
+        #     guser.save()
 
-        # removing future payments
+        # delete current subscription
         current_subscription = guser.subscription
         # delete all future transactions if they exist
         if current_subscription:
