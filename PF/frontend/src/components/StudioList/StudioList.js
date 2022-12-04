@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import OverlayCard from "../../components/OverlayCard/OverlayCard";
+import OverlayCard from "../OverlayCard/OverlayCard";
 import axios from "axios";
-import { StyledStudioList } from "../../components/styles/StudioList.styled";
-import StudioItem from "./StudioItem";
+import { StyledStudioList } from "../styles/StudioList.styled";
+import StudioItem from "../StudioItem/StudioItem";
 
 // Query all the studios
 // Use a map probably to display info for each studio (paginate it - maybe 5 studios at a time)

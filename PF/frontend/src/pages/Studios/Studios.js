@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MapDisplay from "../../components/MapDisplay/MapDisplay";
 import { StyledStudios } from "../../components/styles/Studios.styled";
-import StudioList from "./StudioList";
+import StudioList from "../../components/StudioList/StudioList";
 
 const Studios = (props) => {
     // State to keep track of whether a Studio Details Card is open on the page or not

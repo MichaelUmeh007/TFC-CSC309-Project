@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyledStudioItem } from "../../components/styles/StudioItem.styled";
+import { StyledStudioItem } from "./StudioItem.styled";
 
 const StudioItem = (props) => {
     return (
