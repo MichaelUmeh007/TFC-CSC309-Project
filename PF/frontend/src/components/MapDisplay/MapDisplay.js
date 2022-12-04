@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledMapDisplay } from "../styles/MapDisplay.styled";
+import { StyledMapDisplay } from "./MapDisplay.styled";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
 
 const MapDisplay = (props) => {

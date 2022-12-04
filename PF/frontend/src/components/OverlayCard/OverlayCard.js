@@ -1,9 +1,9 @@
 import React from "react";
-import { StyledCard } from "../styles/OverlayCard.styled";
+import { StyledCard } from "./OverlayCard.styled";
 import { StyledRow } from "../styles/Row.styled";
 import { StyledLink } from "../styles/Link.styled";
 import { StyledButton } from "../styles/Button.styled";
-import { StyledCloseButton } from "../styles/CloseButton.styled";
+import { StyledCloseButton } from "./CloseButton.styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPhone,

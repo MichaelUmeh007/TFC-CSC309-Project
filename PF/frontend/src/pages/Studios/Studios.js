@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MapDisplay from "../../components/MapDisplay/MapDisplay";
-import { StyledStudios } from "../../components/styles/Studios.styled";
+import { StyledStudios } from "./Studios.styled";
 import StudioList from "../../components/StudioList/StudioList";
 
 const Studios = (props) => {
