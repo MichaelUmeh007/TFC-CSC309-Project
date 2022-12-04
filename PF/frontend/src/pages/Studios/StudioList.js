@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
 import axios from "axios";
+import { StyledStudioList } from "../../components/styles/StudioList.styled";
+import StudioItem from "./StudioItem";
 
 // Query all the studios
 // Use a map probably to display info for each studio (paginate it - maybe 5 studios at a time)
@@ -9,20 +11,38 @@ import axios from "axios";
 // Fix positioning of "X" close button
 const StudioList = (props) => {
     // State to keep track of whether a Studio Details Card is open on the page or not
-    const [cardOpen, setCardOpen] = useState(true);
+    const [cardOpen, setCardOpen] = useState(false);
     const [studios, setStudios] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
 
     // Consider making this a global with context
-    const url = "http://127.0.0.1:8000/";
-    const path = "/studios/all";    // This could be default page1 request? or we make state for path
+    const url = "http://127.0.0.1:8000";
+    const path = "/studios/all/";    // This could be default page1 request? or we make state for path
+
+    // const loginUser = async () => {
+    //     const loginBody = {
+    //         username: "patientzero1",
+    //         password: "Sickness123$"
+    //     };
+        
+    //     const { data } = await axios.post(
+    //                 `${url}/accounts/api/token/`, 
+    //                 loginBody,
+    //                 {headers: { "Content-Type": "application/json" }});
+
+    //     console.log(data);
+    // }
 
     // Fetches a page of studios from the backend
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMTE0ODM5LCJpYXQiOjE2NzAxMTEyMzksImp0aSI6IjVkZjJjMWFiMzRlNDQzODg4OGM2MDc4MjA1ZWY0NGZkIiwidXNlcl9pZCI6M30.g79iV06-p5Ozasc-c6Wsu-p_1OfGAZrI_La8iNjySWs";
     const getStudios = async () => {
-        const {data} = await axios.get(`${url}${path}`,
-        {
-            headers: { "Content-Type": "application/json" }
-        });
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }
+        const {data} = await axios.get(`${url}${path}`, config);
         setStudios(data);
     }
 
@@ -30,7 +50,7 @@ const StudioList = (props) => {
     useEffect(() => {
         // Make another axios request to get the next page of data
         getStudios();
-    }, [pageNumber]);
+    }, []);
 
     const closeCard = () => {
         setCardOpen(false);
@@ -41,8 +61,17 @@ const StudioList = (props) => {
     }
 
     return(
-        <div>
-            <button onClick={openCard}>Click me!</button>
+        <StyledStudioList>
+            {studios.map(studio => 
+                <StudioItem 
+                    key={studio.id}
+                    name={studio.name}
+                    address={studio.address}
+                    phoneNumber={studio.phone_number}
+                    openStudioDetailsHandler={openCard}/>
+            )}
+
+            {/* <button onClick={openCard}>Click me!</button> */}
             {cardOpen && 
             <OverlayCard name="College and Bay Studio"
                          imageUrl="https://upload.wikimedia.org/wikipedia/commons/7/7c/Fit_young_man_doing_deadlift_exercise_in_gym.jpg"
@@ -53,7 +82,7 @@ const StudioList = (props) => {
                          amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
                          cardCloseHandler={closeCard}
             />}
-        </div>
+        </StyledStudioList>
     )
 }
 
