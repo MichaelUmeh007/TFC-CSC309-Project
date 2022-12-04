@@ -6,7 +6,7 @@ export const StyledLink = styled(Link)`
 
   color: white;
   text-decoration: none; 
-  margin: 20px;
+  margin: 10%;
   font-weight: bold;
   @font-face {
     font-family: 'Alexandria';
