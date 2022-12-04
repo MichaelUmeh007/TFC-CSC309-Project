@@ -69,6 +69,19 @@
 		},
 		{
 			"name": "User Login (Get Auth Token)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"pm.environment.set(\"access_token\", data.access);",
+							"pm.environment.set(\"refresh_token\", data.refresh);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -105,6 +118,18 @@
 		},
 		{
 			"name": "Token Refresh",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"pm.environment.set(\"access_token\", data.access);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -113,7 +138,7 @@
 					"formdata": [
 						{
 							"key": "refresh",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY2ODk2ODQxMiwiaWF0IjoxNjY4ODgyMDEyLCJqdGkiOiJjYjM2MGZjNTZiOWM0NWYzOGY0NDhkZTA5Zjg3MTcxZCIsInVzZXJfaWQiOjN9.UWs0ssVfW3l01i0nttGgpMnIprAWE4XbE3sesG5iX8k",
+							"value": "{{refresh_token}}",
 							"type": "default"
 						}
 					]
@@ -474,7 +499,7 @@
 			"response": []
 		},
 		{
-			"name": "List Classes for Studio",
+			"name": "DEPRECATED - List Classes for Studio (use View Class Schedule)",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -541,7 +566,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "99"
+							"value": "3"
 						}
 					]
 				},
@@ -566,7 +591,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"action\": \"enrol\",\n    \"all\": \"false\",\n    \"dates\": [\"2022-11-18T16:00:00Z\", \"2022-11-25T16:00:00Z\"]\n}",
+					"raw": "{\n    \"action\": \"enrol\",\n    \"all\": \"true\",\n    \"dates\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -593,7 +618,7 @@
 						},
 						{
 							"key": "class_id",
-							"value": "3"
+							"value": "2"
 						}
 					]
 				},
