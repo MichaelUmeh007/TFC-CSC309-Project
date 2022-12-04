@@ -13,28 +13,14 @@ const StudioList = (props) => {
     // State to keep track of whether a Studio Details Card is open on the page or not
     const [cardOpen, setCardOpen] = useState(false);
     const [studios, setStudios] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1);
+    // const [pageNumber, setPageNumber] = useState(1);
 
     // Consider making this a global with context
     const url = "http://127.0.0.1:8000";
     const path = "/studios/all/";    // This could be default page1 request? or we make state for path
 
-    // const loginUser = async () => {
-    //     const loginBody = {
-    //         username: "patientzero1",
-    //         password: "Sickness123$"
-    //     };
-        
-    //     const { data } = await axios.post(
-    //                 `${url}/accounts/api/token/`, 
-    //                 loginBody,
-    //                 {headers: { "Content-Type": "application/json" }});
-
-    //     console.log(data);
-    // }
-
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMTE0ODM5LCJpYXQiOjE2NzAxMTEyMzksImp0aSI6IjVkZjJjMWFiMzRlNDQzODg4OGM2MDc4MjA1ZWY0NGZkIiwidXNlcl9pZCI6M30.g79iV06-p5Ozasc-c6Wsu-p_1OfGAZrI_La8iNjySWs";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMTg5MzcyLCJpYXQiOjE2NzAxODU3NzIsImp0aSI6ImQ2ZjdkNzliOWIwMzRmMmNhMzUyZDUxYWI4Mzg2ODk0IiwidXNlcl9pZCI6M30.uMfBKEhyUVKVIc5P9Mn_082Iktr5GuTm0bJQ2YG5fW8";
     const getStudios = async () => {
         const config = {
             headers: {
