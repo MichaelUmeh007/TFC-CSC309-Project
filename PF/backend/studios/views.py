@@ -24,7 +24,7 @@ from studios.serializers import (ClassOccurrenceSerializer, ClassSerializer,
 # Create your views here.
 # Can try using Generic APIViews for anything that does not need a lot of extra sorting 
 class ListStudiosView(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination # This doesn't seem to be working
 
     """
