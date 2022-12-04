@@ -12,3 +12,4 @@ six==1.16.0
 django-recurrence==1.11.1
 certifi==2022.9.24
 django-credit-cards==0.4.1
+django-cors-headers==3.13.0
