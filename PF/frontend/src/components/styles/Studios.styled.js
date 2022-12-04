@@ -2,14 +2,15 @@ import styled from "styled-components";
 
 export const StyledStudios = styled.div`
     width: 100%;
+    height: 70%;
 
     .split-screen {
         display: flex;
-        width: 100%:
+        flex-wrap: nowrap;
     }
     
     .split-screen .list-column {
-        flex: 40%;
+        flex: 50%;
     }
     
     .split-screen .map-column {

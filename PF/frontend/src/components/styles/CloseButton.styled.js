@@ -5,6 +5,7 @@ export const StyledCloseButton = styled.button`
     background-color: white;
     width: 10%;
     padding: 11px 0px;
+    float: right;
 
     &:hover {
         border-radius: 100%;

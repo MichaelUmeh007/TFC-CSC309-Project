@@ -10,8 +10,6 @@ import StudioItem from "./StudioItem";
 // If they click on another one, renders that one
 // Fix positioning of "X" close button
 const StudioList = (props) => {
-    // State to keep track of whether a Studio Details Card is open on the page or not
-    const [cardOpen, setCardOpen] = useState(false);
     const [studios, setStudios] = useState([]);
     // const [pageNumber, setPageNumber] = useState(1);
 
@@ -38,14 +36,6 @@ const StudioList = (props) => {
         getStudios();
     }, []);
 
-    const closeCard = () => {
-        setCardOpen(false);
-    }
-
-    const openCard = () => {
-        setCardOpen(true);
-    }
-
     return(
         <StyledStudioList>
             {studios.map(studio => 
@@ -54,20 +44,8 @@ const StudioList = (props) => {
                     name={studio.name}
                     address={studio.address}
                     phoneNumber={studio.phone_number}
-                    openStudioDetailsHandler={openCard}/>
+                    openStudioDetailsHandler={props.openCard}/>
             )}
-
-            {/* <button onClick={openCard}>Click me!</button> */}
-            {cardOpen && 
-            <OverlayCard name="College and Bay Studio"
-                         imageUrl="https://upload.wikimedia.org/wikipedia/commons/7/7c/Fit_young_man_doing_deadlift_exercise_in_gym.jpg"
-                         phoneNumber="416-123-4567"
-                         address="100 Queen St. W"
-                         directions="https://www.google.com/maps/dir/?api=1&origin=100%20Queen%20St.%20W&destination=380%20The%20East%20Mall%2C%20Etobicoke%2C%20ON&travelmode=driving"
-                         postalCode="M2J 3K9"
-                         amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
-                         cardCloseHandler={closeCard}
-            />}
         </StyledStudioList>
     )
 }
