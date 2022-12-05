@@ -3,10 +3,9 @@ import { Link } from "react-router-dom"
 
 
 export const StyledLink = styled(Link)`
-
+  text-decoration: ${props => props.decor? "default" : "none"}; 
   color: white;
-  text-decoration: none; 
-  margin: 20px;
+  margin: ${props => props.margin || "10%"};
   font-weight: bold;
   @font-face {
     font-family: 'Alexandria';

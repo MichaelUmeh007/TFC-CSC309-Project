@@ -3,9 +3,8 @@ import styled from "styled-components";
 var display = 'block'
 var mleft = '0px'
 var mright = '0px'
-// var width = "142px"
 var width = "auto"
-var height = "auto"
+var height = "100%"
 
 export const StyledLogo = styled.img`
     height: ${props => props.height};

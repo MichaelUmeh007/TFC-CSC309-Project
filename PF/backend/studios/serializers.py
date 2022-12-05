@@ -7,7 +7,7 @@ class StudioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Studio
         # These fields may not be enough for viewing an individual studio (do we need to see coaches and classes as well?)
-        fields = ['name', 'address', 'latitude', 'longitude', 'postal_code', 'phone_number']
+        fields = ['id', 'name', 'address', 'latitude', 'longitude', 'postal_code', 'phone_number']
 
 class ClassSerializer(serializers.ModelSerializer):
     # Consider displaying studio name instead of what it displays for studio as is (it shows id)

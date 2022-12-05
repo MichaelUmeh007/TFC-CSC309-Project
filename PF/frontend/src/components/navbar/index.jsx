@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 // The routes that should exclude the navigation bar
 const excludeNavBarRoutes = ["/landing"];
 
-
 function Navbar(props) {
     const {pathname} = useLocation();
 
