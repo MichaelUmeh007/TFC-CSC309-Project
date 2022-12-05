@@ -151,7 +151,7 @@ function Landing() {
             <StyledContentBodyContainer>
                 <div>
                     <div style={{ textAlign: "center", margin: "0px 20px" }}>
-                        <StyledLink to={'/signup'}>
+                        <StyledLink to={'/register'}>
                             <StyledSignupButton className="signup"> JOIN NOW </StyledSignupButton>
                         </StyledLink>
                     </div>
