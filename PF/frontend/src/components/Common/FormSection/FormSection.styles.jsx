@@ -9,7 +9,7 @@ export const StyledFormSection = styled.section`
   justify-content: flex-start;
   padding: 1rem;
   margin: 1em;
-  background-color: ${props => props.backgroundcolor || "grey"};
+  background-color: ${props => props.backgroundcolor || "#997570"};
   color: #fff;
   border-radius: 1em;
 `

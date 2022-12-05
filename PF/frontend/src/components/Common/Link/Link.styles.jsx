@@ -3,9 +3,8 @@ import { Link } from "react-router-dom"
 
 
 export const StyledLink = styled(Link)`
-
-  color: white;
   text-decoration: ${props => props.decor? "default" : "none"}; 
+  color: white;
   margin: ${props => props.margin || "10%"};
   font-weight: bold;
   @font-face {
