@@ -4,6 +4,7 @@ import Layout from './pages/layout'
 import Home from './pages/home';
 import Studios from './pages/studios'
 import Subscrptions from './pages/subscriptions'
+import Landing from './pages/landing'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='studios' element={<Studios />} />
           <Route path='subscriptions' element={<Subscrptions />} />
+          <Route path='landing' element={<Landing />}/>
         </Route>
       </Routes>
     </BrowserRouter>

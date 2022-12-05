@@ -9,6 +9,7 @@ function Layout() {
             <StyledLink to={'/'}>Home</StyledLink>
             <StyledLink to={'/studios'}>Studios</StyledLink>
             <StyledLink to={'/subscriptions'}>Subscriptions</StyledLink>
+            <StyledLink to={'/landing'}>Landing Page</StyledLink>
       </Navbar>
       <Outlet/>
       </>
