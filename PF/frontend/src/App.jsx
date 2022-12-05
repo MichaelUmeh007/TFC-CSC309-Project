@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes} from 'react-router-dom'
 import Layout from './pages/layout'
 import Home from './pages/home';
-import Studios from './pages/studios'
+import Studios from './pages/Studios/Studios'
 import Subscrptions from './pages/subscriptions'
 
 function App() {
