@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useState, useEffect } from "react";
 import profilepic from "../../profile.png";
-import StyledLink from "../link";
 import {
   DropdownMenu,
   StyledUL,
