@@ -7,23 +7,11 @@ export const StyledStudios = styled.div`
     .split-screen {
         display: flex;
         flex-wrap: nowrap;
+        flex-direction: row;
     }
-    
-    .split-screen .list-column {
-        flex: 50%;
-    }
-    
-    .split-screen .map-column {
-        flex: 60%;
+
+    h2 {
+        margin-top: 7%;
+        margin-left: 1%;
     }
 `
-// div.list-column {
-//     flex: 50%;
-//     padding: 10px;
-//     height: 300px;
-// }
-
-// div.map-column {
-//     flex: 50%;
-//     padding: 10px;
-// }

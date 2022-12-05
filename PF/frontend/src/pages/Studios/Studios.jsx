@@ -20,8 +20,8 @@ const Studios = (props) => {
             <h2>Studios</h2>
 
             <div className="split-screen">
-                <StudioList className="list-column" openCard={openCard} />
-                <MapDisplay className="map-column" cardOpen={cardOpen} closeCard={closeCard} />
+                <StudioList openCard={openCard} />
+                <MapDisplay cardOpen={cardOpen} closeCard={closeCard} />
             </div>
 
         </StyledStudios>
