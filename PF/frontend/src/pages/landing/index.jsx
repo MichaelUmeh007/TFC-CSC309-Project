@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import StyledLogo from "../../components/logo";
-import StyledLink from "../../components/link";
+import StyledLink from "../../components/Common/Link";
 import logo from "../../../src/TFC_logo.png"
-// import Section from "../../components/section";
-// import { Link } from 'react-router-dom';
-// import background from "../../../src/landing_page_bg2.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
