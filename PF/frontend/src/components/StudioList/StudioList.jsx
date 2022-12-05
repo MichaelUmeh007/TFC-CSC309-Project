@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyledStudioList } from "../styles/StudioList.styled";
+import { StyledStudioList } from "./StudioList.styled";
 import StudioItem from "../StudioItem/StudioItem";
 import axios from "axios";
 
