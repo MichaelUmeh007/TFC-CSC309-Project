@@ -1,6 +1,6 @@
 import { StyledNav } from "./Navbar.styles";
 import logo from "../../TFC_logo.png"
-import StyledLogo from "../logo";
+import StyledLogo from "../Logo";
 
 function Navbar(props) {
     return (
