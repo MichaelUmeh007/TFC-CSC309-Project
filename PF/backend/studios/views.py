@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
+from rest_framework.pagination import PageNumberPagination
 
 from accounts.models import GUser
 from studios.models import Class, ClassOccurrence, Studio
@@ -24,6 +25,8 @@ from studios.serializers import (ClassOccurrenceSerializer, ClassSerializer,
 # Can try using Generic APIViews for anything that does not need a lot of extra sorting 
 class ListStudiosView(APIView):
     permission_classes = (IsAuthenticated,)
+    pagination_class = PageNumberPagination # This doesn't seem to be working
+
     """
     Endpoint: /studios/
 
