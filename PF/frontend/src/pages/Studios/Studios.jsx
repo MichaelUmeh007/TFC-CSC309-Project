@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MapDisplay from "../../components/MapDisplay/MapDisplay";
-import { StyledStudios } from "../../components/styles/Studios.styled";
+import { StyledStudios } from "./Studios.styled";
 import StudioList from "../../components/StudioList/StudioList";
 
 const Studios = (props) => {
@@ -15,14 +15,13 @@ const Studios = (props) => {
         setCardOpen(true);
     }
 
-
     return (
         <StyledStudios>
             <h2>Studios</h2>
 
             <div className="split-screen">
-                <StudioList className="list-column" openCard={openCard} />
-                <MapDisplay className="map-column" cardOpen={cardOpen} closeCard={closeCard} />
+                <StudioList openCard={openCard} />
+                <MapDisplay cardOpen={cardOpen} closeCard={closeCard} />
             </div>
 
         </StyledStudios>
