@@ -197,9 +197,7 @@ const Subscriptions = () => {
           </div>
         </Column>
       </Row>
-      <Row>
-        <p>sup baby girl</p>
-      </Row>
+      <Row></Row>
     </StyledBody>
   );
 };
