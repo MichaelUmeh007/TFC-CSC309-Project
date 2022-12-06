@@ -78,7 +78,7 @@ export const StyledButton = styled.button`
   font-weight: normal;
   font-size: 24px;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: 0;
   margin-bottom: 15px;
 `;
 

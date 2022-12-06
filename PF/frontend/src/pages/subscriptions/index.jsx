@@ -13,6 +13,7 @@ import { Modal } from "../../components/Modal";
 import { GlobalStyle } from "../../globalStyles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./subscriptions.styles.css";
 
 const Subscriptions = () => {
   // toast notifications
@@ -129,7 +130,6 @@ const Subscriptions = () => {
                 modalMSG={"You are subscribing to a monthly membership:"}
                 joinFunction={handleMonthlySub}
               />
-              <GlobalStyle />
             </div>
 
             {/* perks */}
@@ -179,7 +179,6 @@ const Subscriptions = () => {
                 modalMSG={"You are subscribing to a yearly membership:"}
                 joinFunction={handleYearlySub}
               />
-              <GlobalStyle />
             </div>
 
             {/* perks */}

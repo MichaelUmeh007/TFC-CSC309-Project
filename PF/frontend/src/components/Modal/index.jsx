@@ -34,9 +34,14 @@ const ModalContent = styled.div`
   color: #141414;
   h1 {
     margin: 10px;
+    @font-face {
+      font-family: "Alexandria";
+      src: url("https://fonts.googleapis.com/css2?family=Alexandria:wght@700&display=swap");
+    }
   }
   p {
     margin-bottom: 1rem;
+    font-family: "Alexandria", sans-serif;
   }
   button {
     padding: 10px 24px;
@@ -44,6 +49,7 @@ const ModalContent = styled.div`
     color: #fff;
     border: none;
     cursor: pointer;
+    font-family: "Alexandria", sans-serif;
   }
 `;
 const CloseModalButton = styled(MdClose)`

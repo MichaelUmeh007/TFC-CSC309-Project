@@ -87,4 +87,8 @@ export const StyledLI = styled.li`
   border-top: 1px solid rgba(128, 128, 128, 0.2);
   display: flex;
   margin: 10px;
+  @font-face {
+    font-family: "Alexandria";
+    src: url("https://fonts.googleapis.com/css2?family=Alexandria:wght@700&display=swap");
+  }
 `;
