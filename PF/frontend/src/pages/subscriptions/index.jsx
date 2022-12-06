@@ -52,10 +52,11 @@ const Subscriptions = () => {
   const openMonthlyModal = () => {
     setshowMonthlyModal((prev) => !prev);
   };
-  // join yearly button handler
+  // join monthly button handler
   const handleMonthlySub = () => {
+    // TODO: MAKE API CALLS
     // make the API call to change subscription to monthly
-    // handle the credit card + credit card expired + already subscribed case by TODO: figure out how to print out errors
+    // handle the credit card + credit card expired + already subscribed case by
     // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
     notifySubscriptionSuccess();
   };
@@ -69,8 +70,9 @@ const Subscriptions = () => {
 
   // join yearly button handler
   const handleYearlySub = () => {
+    // TODO: MAKE API CALLS
     // make the API call to change subscription to yearly
-    // handle the credit card + credit card expired + already subscribed case by TODO: figure out how to print out errors
+    // handle the credit card + credit card expired + already subscribed case by calling notify
     // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
     notifyError("youre mom");
   };
@@ -195,6 +197,9 @@ const Subscriptions = () => {
             </MembershipPerk>
           </div>
         </Column>
+      </Row>
+      <Row>
+        <p>sup baby girl</p>
       </Row>
     </StyledBody>
   );
