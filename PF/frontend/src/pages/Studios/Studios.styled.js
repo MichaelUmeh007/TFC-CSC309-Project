@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 export const StyledStudios = styled.div`
     width: 100%;
-    height: 70%;
+    height: 500px;
 
-    .split-screen {
+    div.split-screen {
         display: flex;
         flex-wrap: nowrap;
         flex-direction: row;
+        height: 100%;
     }
 
     h2 {

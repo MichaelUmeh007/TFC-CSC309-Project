@@ -17,7 +17,7 @@ const StudioList = (props) => {
     const path = "/studios/all/";    // This could be default page1 request? or we make state for path
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMjcwNTM3LCJpYXQiOjE2NzAyNjY5MzcsImp0aSI6ImRjY2IyZWM0ZTgwMzQ0OWJiNTNhM2Y0ZWI3YmNhMTc3IiwidXNlcl9pZCI6M30.RusV2Nwl3Vk0pcNkMLut8oPwwcsoP4OfYvo2JA_AvRo";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMzkyOTg4LCJpYXQiOjE2NzAzODkzODgsImp0aSI6ImQ4YzJmYWFlZTZkYjRjZWI5ZWU3ODIyODFmMWIzNDc1IiwidXNlcl9pZCI6M30.07iHNbx-Xzw3c7KAO-Zv7EaMSXDB0EL3fyUJHSqn3QQ";
     const getStudios = async () => {
         const config = {
             headers: {
@@ -33,7 +33,7 @@ const StudioList = (props) => {
     useEffect(() => {
         // Make another axios request to get the next page of data
         getStudios();
-    }, []);
+    });
 
     return(
         <StyledStudioList>
