@@ -4,9 +4,11 @@ export const StyledBody = styled.body`
   margin-top: 7%;
 `;
 export const StyledH2 = styled.h2`
-  &.membership-msg {
-    text-align: center;
+  &.cancel-msg {
+    position: relative;
+    top: 500px;
   }
+  text-align: center;
   text-decoration: none;
   margin: 20px;
   font-weight: 500;
@@ -48,6 +50,30 @@ export const StyledSpan = styled.span`
   font-weight: normal;
 `;
 
+export const FineTextContainer = styled.div`
+  font-family: "Alexandria", sans-serif;
+  position: relative;
+  top: 450px;
+  left: 17.5%;
+  font-size: 0.75rem;
+  color: grey;
+  width: 65%;
+`;
+
+export const CancellationDiv = styled.div`
+  font-family: "Alexandria", sans-serif;
+  position: relative;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: black;
+  top: 500px;
+  width: 65%;
+  height: 300px;
+  left: 17.5%;
+  padding: 15px;
+  margin: 15px;
+`;
 export const MembershipPerk = styled.p`
   &.monthly-perk {
     border-top: 1px solid rgba(100, 100, 100, 0.5);
@@ -66,6 +92,11 @@ export const StyledButton = styled.button`
   &.monthly-button {
     background: rgb(60, 60, 60);
     color: white;
+  }
+  &.cancel-button {
+    background: rgb(40, 40, 40);
+    color: white;
+    margin-top: 15px;
   }
   &.yearly-button {
     background: white;

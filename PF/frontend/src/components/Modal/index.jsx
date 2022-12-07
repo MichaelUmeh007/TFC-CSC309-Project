@@ -62,7 +62,13 @@ const CloseModalButton = styled(MdClose)`
   padding: 0;
   z-index: 10;
 `;
-export const Modal = ({ showModal, setShowModal, modalMSG, joinFunction }) => {
+export const Modal = ({
+  showModal,
+  setShowModal,
+  modalMSG,
+  joinFunction,
+  confirmMsg,
+}) => {
   // useref so clicking outside the modal closes it
   const modalRef = useRef();
 
@@ -93,9 +99,9 @@ export const Modal = ({ showModal, setShowModal, modalMSG, joinFunction }) => {
         <Background ref={modalRef} onClick={closeModal}>
           <ModalWrapper showModal={showModal}>
             <ModalContent>
-              <h1>Your Fitness Journey Starts Here!</h1>
+              <h1>Confirmation:</h1>
               <p>{modalMSG}</p>
-              <button onClick={joinFunction}>Join Now</button>
+              <button onClick={joinFunction}>{confirmMsg}</button>
             </ModalContent>
             <CloseModalButton
               aria-label="Close modal"
