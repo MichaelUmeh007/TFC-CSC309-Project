@@ -139,16 +139,6 @@ const Subscriptions = () => {
               >
                 Join Now
               </StyledButton>
-              {/* TODO: add monthly button handler to be passed in */}
-              <Modal
-                showModal={showMonthlyModal}
-                setShowModal={setshowMonthlyModal}
-                modalMSG={
-                  "You are subscribing to a monthly membership for $14.99/month."
-                }
-                joinFunction={handleMonthlySub}
-                confirmMsg={"Sign up"}
-              />
             </div>
 
             {/* perks */}
@@ -191,16 +181,7 @@ const Subscriptions = () => {
               <StyledButton className="yearly-button" onClick={openYearlyModal}>
                 Join Now
               </StyledButton>
-              {/* TODO: add yearly button handler to be passed in */}
-              <Modal
-                showModal={showYearlyModal}
-                setShowModal={setShowYearlyModal}
-                modalMSG={
-                  "You are subscribing to a monthly membership for $14.99/month."
-                }
-                joinFunction={handleYearlySub}
-                confirmMsg={"Sign up"}
-              />
+              {/* actual modal pop up is at bottom */}
             </div>
 
             {/* perks */}
@@ -261,17 +242,39 @@ const Subscriptions = () => {
             <StyledButton className="cancel-button" onClick={openCancelModal}>
               Cancel Membership
             </StyledButton>
-            {/* TODO: add yearly button handler to be passed in */}
-            <Modal
-              showModal={showCancelModal}
-              setShowModal={setShowCancelModal}
-              modalMSG={"Are you sure you want to cancel your TFC membership?"}
-              joinFunction={handleCancelSub}
-              confirmMsg={"Yes, Cancel"}
-            />
           </div>
         </div>
       </CancellationDiv>
+
+      {/* monthly modal */}
+      <Modal
+        showModal={showMonthlyModal}
+        setShowModal={setshowMonthlyModal}
+        modalMSG={
+          "You are subscribing to a monthly membership for $14.99/month."
+        }
+        joinFunction={handleMonthlySub}
+        confirmMsg={"Sign up"}
+      />
+
+      {/* yearly modal */}
+      <Modal
+        showModal={showYearlyModal}
+        setShowModal={setShowYearlyModal}
+        modalMSG={
+          "You are subscribing to a monthly membership for $14.99/month."
+        }
+        joinFunction={handleYearlySub}
+        confirmMsg={"Sign up"}
+      />
+      {/* cancellation modal */}
+      <Modal
+        showModal={showCancelModal}
+        setShowModal={setShowCancelModal}
+        modalMSG={"Are you sure you want to cancel your TFC membership?"}
+        joinFunction={handleCancelSub}
+        confirmMsg={"Yes, Cancel"}
+      />
     </StyledBody>
   );
 };
