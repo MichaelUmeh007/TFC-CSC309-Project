@@ -19,51 +19,51 @@ import {
 const OverlayCard = (props) => {
     return (
         <StyledCard>
-            <StyledRow className="close-row">
-                <StyledCloseButton className="close-btn" onClick={props.cardCloseHandler}>
-                    <FontAwesomeIcon icon={faXmark} />
-                </StyledCloseButton>
-            </StyledRow>   
+            <StyledCloseButton className="close-btn" onClick={props.cardCloseHandler}>
+                <FontAwesomeIcon icon={faXmark} />
+            </StyledCloseButton>
 
-            <StyledRow>
-                <h2>{props.name}</h2>
-            </StyledRow>
+            <div className="flex-card">
+                <StyledRow>
+                    <h2>{props.name}</h2>
+                </StyledRow>
 
-            <StyledRow> 
-                <img src={props.imageUrl} 
-                     alt="man walking down street" 
-                     width="100" 
-                     height="100"/>
-            </StyledRow>
+                <StyledRow> 
+                    <img src={props.imageUrl} 
+                        alt="man walking down street" 
+                        width="100" 
+                        height="100"/>
+                </StyledRow>
 
-            <StyledRow>
-                <FontAwesomeIcon icon={faPhone} fixedWidth />
-                <StyledLink>{props.phoneNumber}</StyledLink>
-            </StyledRow>
+                <StyledRow>
+                    <FontAwesomeIcon icon={faPhone} fixedWidth />
+                    <StyledLink>{props.phoneNumber}</StyledLink>
+                </StyledRow>
 
-            <StyledRow>
-                <FontAwesomeIcon icon={faLocationDot} fixedWidth />
-                <StyledLink href={props.directions} target="_blank">{props.address}</StyledLink>
-            </StyledRow>
+                <StyledRow>
+                    <FontAwesomeIcon icon={faLocationDot} fixedWidth />
+                    <StyledLink href={props.directions} target="_blank">{props.address}</StyledLink>
+                </StyledRow>
 
-            <StyledRow>
-                <FontAwesomeIcon icon={faMailBulk} fixedWidth />
-                <StyledLink href="">{props.postalCode}</StyledLink>
-            </StyledRow>
-            
-            <StyledRow>
-                <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
-                <StyledLink>Amenities</StyledLink>
-                <ul>
-                    {props.amenities.map(amenity => 
-                        <li key={amenity.id}>{amenity.type}</li>)}
-                </ul>
-            </StyledRow>
-            
-            <StyledRow>
-                <StyledButton onClick={null}>View Class Schedule</StyledButton>
-            </StyledRow>
-        </StyledCard>
+                <StyledRow>
+                    <FontAwesomeIcon icon={faMailBulk} fixedWidth />
+                    <StyledLink href="">{props.postalCode}</StyledLink>
+                </StyledRow>
+                
+                <StyledRow>
+                    <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
+                    <StyledLink>Amenities</StyledLink>
+                    <ul>
+                        {props.amenities.map(amenity => 
+                            <li key={amenity.id}>{amenity.type}</li>)}
+                    </ul>
+                </StyledRow>
+                
+                <StyledRow>
+                    <StyledButton onClick={null}>View Class Schedule</StyledButton>
+                </StyledRow>
+            </div>
+        </StyledCard>        
     )
 }
 
