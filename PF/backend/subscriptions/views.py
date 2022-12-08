@@ -155,6 +155,35 @@ class CancelSubscriptionsView(APIView):
         #future transactions
         future_payments = transactions.filter(timestamp__gt=timezone.now())
 
+        # if there are classes for the user, then cancel all classes past the last payment time
+        if guser.class_occurrences.all():
+            # get the first class occurence of the user and get the date of the first class
+            user_classes = guser.class_occurrences.all()
+            # first_class = user_classes.order_by('start_datetime').first()
+            # first_class_date = first_class.start_datetime
+            
+            # get next payment date
+            next_payment = future_payments.order_by('timestamp').first()
+
+            if (next_payment):
+                # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
+                next_payment_date = next_payment.timestamp - relativedelta(days=1) 
+
+                # For every class that this user is in, we want to take them out of it
+                for user_class in user_classes:
+                    # We only modify classes that haven't occurred yet
+                    if user_class.start_datetime > timezone.now() and user_class.start_datetime < next_payment_date:
+                        # Remove this class from the user's schedule
+                        guser.class_occurrences.remove(user_class)
+                        
+                        # Remove user from this class's attendance
+                        user_class.num_attending -= 1;
+                        user_class.save()    
+            
+            # get all the recurrences between the first class and the next payment date and set it to the user's occurences
+            # guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
+            guser.save()
+
         # delete current subscription
         current_subscription = guser.subscription
         # delete all future transactions if they exist
@@ -167,32 +196,6 @@ class CancelSubscriptionsView(APIView):
         guser.subscription = None
         guser.save()
 
-        # if there are classes for the user, then cancel all classes past the last payment time
-        if guser.class_occurrences.all():
-            # get the first class occurence of the user and get the date of the first class
-            user_classes = guser.class_occurrences.all()
-            # first_class = user_classes.order_by('start_datetime').first()
-            # first_class_date = first_class.start_datetime
-            
-            # get next payment date
-            next_payment = future_payments.order_by('timestamp').first()
-            # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
-            next_payment_date = next_payment.timestamp - relativedelta(days=1) 
-
-            # For every class that this user is in, we want to take them out of it
-            for user_class in user_classes:
-                # We only modify classes that haven't occurred yet
-                if user_class.start_datetime > timezone.now() and user_class.start_datetime < next_payment_date:
-                    # Remove this class from the user's schedule
-                    guser.class_occurrences.remove(user_class)
-                    
-                    # Remove user from this class's attendance
-                    user_class.num_attending -= 1;
-                    user_class.save()    
-                
-            # get all the recurrences between the first class and the next payment date and set it to the user's occurences
-            # guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
-            guser.save()
 
         return Response({'your subscription': guser.subscription})
         # except:
