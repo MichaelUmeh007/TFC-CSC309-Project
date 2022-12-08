@@ -1,0 +1,16 @@
+.div1,
+.div2 {
+  float: left;
+}
+
+.div1 {
+    width: 66.6%;
+}
+
+.div2 {
+    width: 33.3%;
+}
+
+.clear {
+    clear: both;
+}

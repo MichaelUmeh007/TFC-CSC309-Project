@@ -5,6 +5,7 @@ import logo from "../../../src/TFC_logo.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
+import MonthlyCost from "../../components/MonthlyCost/MonthlyCost";
 import './index.css';
 
 const StyledBody = styled.body`
@@ -110,7 +111,7 @@ function Landing() {
                 <StyledParagraph>Not currently a member?
                 </StyledParagraph>
                 <StyledParagraph>Subscription plans start at
-                    $(price)/month.
+                    $<MonthlyCost/>/month.
                 </StyledParagraph>
                 <StyledParagraph> Sign-up now and get <span style={{ fontWeight: '400' }}>1 month free</span> on us!</StyledParagraph>
                 

@@ -7,9 +7,16 @@ export const StyledBody = styled.body`
 export const StyledHeaderText = styled.h1`
     color: black;
     text-decoration: none; 
-    margin: 20px;
+    margin: 20px 40px;
     font-weight: bold;
     font-family: 'Alexandria', sans-serif;
     text-align: left;
     font-size: 4em;
+`
+
+export const StyledContentBodyContainer = styled.div`
+    margin: 50px;
+    padding: 0;
+    width: auto;
+    height: auto;
 `
