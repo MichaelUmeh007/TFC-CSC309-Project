@@ -16,7 +16,7 @@ const Studios = (props) => {
     }
 
     return (
-        <StyledStudios>
+        <StyledStudios className="studios">
             <h2>Studios</h2>
 
             <div className="split-screen">

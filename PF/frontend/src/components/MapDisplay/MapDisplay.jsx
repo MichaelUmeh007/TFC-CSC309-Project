@@ -13,9 +13,9 @@ const MapDisplay = (props) => {
 
     // We should get the address of the logged in user or provide a way for them to let the browser get their current location
     // so that we can set it in the state here
-    const [lng, setLng] = useState(-79.5);
-    const [lat, setLat] = useState(43.6);
-    const [zoom, setZoom] = useState(9);
+    const [lng, setLng] = useState(-79.383);
+    const [lat, setLat] = useState(43.653);
+    const [zoom, setZoom] = useState(12);
 
     // Initialize the map
     useEffect(() => {
@@ -46,8 +46,6 @@ const MapDisplay = (props) => {
 
     return (
         <StyledMapDisplay>
-            <div ref={mapContainer} className="map-container" />
-            {/* Need to make the code below use a portal, make it a modal */}
             {props.cardOpen && 
             <OverlayCard name="College and Bay Studio"
                          imageUrl="https://upload.wikimedia.org/wikipedia/commons/7/7c/Fit_young_man_doing_deadlift_exercise_in_gym.jpg"
@@ -58,6 +56,9 @@ const MapDisplay = (props) => {
                          amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
                          cardCloseHandler={props.closeCard}
             />}
+            <div ref={mapContainer} className="map-container" />
+            {/* Need to make the code below use a portal, make it a modal */}
+            
         </StyledMapDisplay>
 
     );

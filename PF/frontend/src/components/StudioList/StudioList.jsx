@@ -9,15 +9,17 @@ import axios from "axios";
 // If they click on another one, renders that one
 // Fix positioning of "X" close button
 const StudioList = (props) => {
+    // State that keeps track of the current list of studios being rendered
     const [studios, setStudios] = useState([]);
-    // const [pageNumber, setPageNumber] = useState(1);
+    const [searchQuery, setSearchQuery] = useState(null);
 
     // Consider making this a global with context
     const url = "http://127.0.0.1:8000";
-    const path = "/studios/all/";    // This could be default page1 request? or we make state for path
+    const allPath = "/studios/all/";    // This could be default page1 request? or we make state for path
+    const filterPath = "/studios/filter/"
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMzkyOTg4LCJpYXQiOjE2NzAzODkzODgsImp0aSI6ImQ4YzJmYWFlZTZkYjRjZWI5ZWU3ODIyODFmMWIzNDc1IiwidXNlcl9pZCI6M30.07iHNbx-Xzw3c7KAO-Zv7EaMSXDB0EL3fyUJHSqn3QQ";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDc0NjIxLCJpYXQiOjE2NzA0NzEwMjEsImp0aSI6ImJmMzI4NGQ2YWI4ODRlNTVhNDgxNmZjN2Y5MDBiNWMxIiwidXNlcl9pZCI6M30.BsiXDWfXRxvuMWVNxgZdyI_BrJN96QyRar16QAl4lrI";
     const getStudios = async () => {
         const config = {
             headers: {
@@ -25,15 +27,24 @@ const StudioList = (props) => {
                 "Content-Type": "application/json"
             }
         }
-        const {data} = await axios.get(`${url}${path}`, config);
-        setStudios(data);
+
+        // If there is no search query, send a request to get ALL studios
+        let response = {};
+        if (!searchQuery) {
+            response = await axios.get(`${url}${allPath}`, config);
+        } else {
+            // If there is a search query, make a request to the filter endpoint
+            response = await axios.get(`${url}${filterPath}`, {params: searchQuery}, config);
+        }
+        
+        setStudios(response.data);
     }
 
     // Fetches and re-renders the next page of stores when user changes page number
     useEffect(() => {
         // Make another axios request to get the next page of data
         getStudios();
-    });
+    }, [searchQuery]);
 
     return(
         <StyledStudioList>

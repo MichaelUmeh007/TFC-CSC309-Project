@@ -11,4 +11,8 @@ export const StyledStudioItem = styled.div`
     & > * {
         margin: 3%;
     }
+
+    &:hover {
+        background-color: #e6e3e3;
+    }
 `
