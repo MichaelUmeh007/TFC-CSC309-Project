@@ -16,7 +16,7 @@ import { Modal } from "../../components/Modal";
 import { GlobalStyle } from "../../globalStyles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./subscriptions.styles.css";
+import "./index.css";
 
 const Subscriptions = () => {
   /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
@@ -75,7 +75,11 @@ const Subscriptions = () => {
   };
 
   // render for message at the top
-  let 
+  let userSubMessage;
+
+  if (userSub === "none") {
+    userSubMessage;
+  }
 
   // toast notifications
   const notifySubscriptionSuccess = (successMsg) =>
