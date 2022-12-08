@@ -42,6 +42,12 @@ const Subscriptions = () => {
     setShowCancelModal((prev) => !prev);
   };
 
+  // state for user subscription
+  const [userSub, setUserSub] = useState(null);
+
+  // auth stuff
+  const url = "http://127.0.0.1:8000";
+
   // join monthly button handler
   const handleMonthlySub = () => {
     // TODO: MAKE API CALLS
@@ -67,6 +73,9 @@ const Subscriptions = () => {
     // if successful, call the mysubscription API call and setState to what it returns (none), return success message
     notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
   };
+
+  // render for message at the top
+  let 
 
   // toast notifications
   const notifySubscriptionSuccess = (successMsg) =>
