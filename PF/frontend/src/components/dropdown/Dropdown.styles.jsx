@@ -23,7 +23,7 @@ export const ProfilePic = styled.img`
     cursor: pointer;
   }
   position: absolute;
-  top: 10px;
+  top: 5%;
   right: 40px;
   height: 60px;
   width: 60px;

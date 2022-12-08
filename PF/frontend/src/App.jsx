@@ -8,6 +8,7 @@ import Landing from "./pages/landing";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Profile from "./pages/profile";
+import Transactions from "./pages/transhist";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="subscriptions" element={<Subscrptions />} />
             <Route path="landing" element={<Landing />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="transactions" element={<Transactions />} />
           </Route>
 
           <Route path="/login" element={<Login />} />
