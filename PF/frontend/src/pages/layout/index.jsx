@@ -1,4 +1,4 @@
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import { Outlet } from "react-router-dom";
 import StyledLink from "../../components/Common/Link";
 import Dropdown from "../../components/dropdown";
