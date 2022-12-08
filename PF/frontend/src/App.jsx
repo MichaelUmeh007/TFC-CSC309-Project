@@ -8,6 +8,8 @@ import Login from './pages/login';
 import Register from './pages/register';
 import Profile from './pages/profile';
 import { AuthProvider, RequireAuth } from 'react-auth-kit'
+import "./App.css";
+import Landing from "./pages/landing";
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
 
             <Route path='studios' element={<Studios />} />
             <Route path='subscriptions' element={<Subscrptions />} />
+            <Route path="landing" element={<Landing />} />
 
           </Route>
 
@@ -43,7 +46,7 @@ function App() {
       </BrowserRouter>
     </AuthProvider>
     </>
-    );
+  );
 }
 
 export default App;

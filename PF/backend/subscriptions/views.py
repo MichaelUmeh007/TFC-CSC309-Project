@@ -28,6 +28,28 @@ class SubscriptionOptionsView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination # this should automatically paginate the request on a get request
 
+class UserSubscriptionView(APIView):
+    """
+    endpoint: /my-subscription/
+
+    Purpose: get the currently logged-in user's subscription
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+
+        # check user auth
+        # try:
+        user = User.objects.get(username=request.user.username)
+        guser = GUser.objects.get(user=user)
+
+        user_sub = guser.subscription
+        # check if user_sub does not exist
+        if (user_sub == None):
+            return Response({"subscription": "none"})
+        return Response({"subscription": user_sub.type})
+        # except:
+        #     return Response({"error": "User not authorized"}, status=401)
 class SubscribeView(APIView):
     """
     endpoint: /subscribe/
@@ -142,20 +164,22 @@ class CancelSubscriptionsView(APIView):
             
             # get next payment date
             next_payment = future_payments.order_by('timestamp').first()
-            # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
-            next_payment_date = next_payment.timestamp - relativedelta(days=1) 
 
-            # For every class that this user is in, we want to take them out of it
-            for user_class in user_classes:
-                # We only modify classes that haven't occurred yet
-                if user_class.start_datetime > timezone.now() and user_class.start_datetime < next_payment_date:
-                    # Remove this class from the user's schedule
-                    guser.class_occurrences.remove(user_class)
-                    
-                    # Remove user from this class's attendance
-                    user_class.num_attending -= 1;
-                    user_class.save()    
-                
+            if (next_payment):
+                # subtract one day from the last day so we get everything UP TO BUT NOT INCLUDING the last day (if a class is scheduled on the last day)
+                next_payment_date = next_payment.timestamp - relativedelta(days=1) 
+
+                # For every class that this user is in, we want to take them out of it
+                for user_class in user_classes:
+                    # We only modify classes that haven't occurred yet
+                    if user_class.start_datetime > timezone.now() and user_class.start_datetime < next_payment_date:
+                        # Remove this class from the user's schedule
+                        guser.class_occurrences.remove(user_class)
+                        
+                        # Remove user from this class's attendance
+                        user_class.num_attending -= 1;
+                        user_class.save()    
+            
             # get all the recurrences between the first class and the next payment date and set it to the user's occurences
             # guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
             guser.save()
