@@ -17,7 +17,7 @@ const StudioList = (props) => {
     const path = "/studios/all/";    // This could be default page1 request? or we make state for path
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwMjcwNTM3LCJpYXQiOjE2NzAyNjY5MzcsImp0aSI6ImRjY2IyZWM0ZTgwMzQ0OWJiNTNhM2Y0ZWI3YmNhMTc3IiwidXNlcl9pZCI6M30.RusV2Nwl3Vk0pcNkMLut8oPwwcsoP4OfYvo2JA_AvRo";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDYyNzgxLCJpYXQiOjE2NzA0NTkxODEsImp0aSI6Ijk0ZWIzMjBhOTk4ZjQ3M2M5MTMzMGE5YTAzMmJlZDhlIiwidXNlcl9pZCI6OH0.PqPRXNdM6OAxXT8n826dXNbtKCuHdodG70HrgeeYZT0";
     const getStudios = async () => {
         const config = {
             headers: {

@@ -5,7 +5,7 @@ import logo from "../../../src/TFC_logo.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
-import './landing.styles.css';
+import './index.css';
 
 const StyledBody = styled.body`
     padding-top: 20px;
