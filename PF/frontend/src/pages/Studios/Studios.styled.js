@@ -11,7 +11,7 @@ export const StyledStudios = styled.div`
         height: 100%;
     }
 
-    h2 {
+    h2#studios-header {
         margin-top: 7%;
         margin-left: 1%;
     }

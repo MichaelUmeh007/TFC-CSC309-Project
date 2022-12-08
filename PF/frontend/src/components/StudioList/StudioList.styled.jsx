@@ -9,6 +9,6 @@ export const StyledStudioList = styled.div`
     overflow: scroll;
 
     div:first-child {
-        border-top: 1px solid black;
+        border-top: 1.5px solid black;
     }
 `

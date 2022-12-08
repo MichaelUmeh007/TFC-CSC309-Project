@@ -1,10 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 import { StyledMapDisplay } from "./MapDisplay.styled";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
 
 const MapDisplay = (props) => {
+    // State for component
+    const [studio, setStudio] = useState(null);
+
     // Mapbox access token for 309
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dHlwMTIzIiwiYSI6ImNsYWo2Y3prOTAxZXMzdnFneHA3Zjh1ajUifQ.WP7ebFyD56wq50cyYoQZBQ';
 
@@ -44,15 +48,40 @@ const MapDisplay = (props) => {
         });
     });
 
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDc4MjM2LCJpYXQiOjE2NzA0NzQ2MzYsImp0aSI6IjY4MjAwZmQ5ZGRlMDQxMDlhZDg1NmYzODczOTEzYWNjIiwidXNlcl9pZCI6M30.SXRXC2IoC02NnMqW9Dvx0J6DAz3SDzF4m0ISVKW3o38";
+    const getStudioById = async () => {
+        const url = `http://localhost:8000/studios/${props.studioId}/details/`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        }
+        
+        const {data} = await axios.get(url, config);
+        setStudio(data);
+    }
+
+    // Make a request for a studio's details if the user clicks on that studio
+    useEffect(() => {
+        if (props.cardOpen) {
+            getStudioById();
+        }
+    }, [props.cardOpen]);
+
+    // TODO: Make studios return amenities or make view for queries to amenities
+    // TODO: Figure out how to display images
+    // TODO: Look up phone number formatter (library) for rect
+
     return (
         <StyledMapDisplay>
             {props.cardOpen && 
-            <OverlayCard name="College and Bay Studio"
+            <OverlayCard name={studio.name}
                          imageUrl="https://upload.wikimedia.org/wikipedia/commons/7/7c/Fit_young_man_doing_deadlift_exercise_in_gym.jpg"
-                         phoneNumber="416-123-4567"
-                         address="100 Queen St. W"
-                         directions="https://www.google.com/maps/dir/?api=1&origin=100%20Queen%20St.%20W&destination=380%20The%20East%20Mall%2C%20Etobicoke%2C%20ON&travelmode=driving"
-                         postalCode="M2J 3K9"
+                         phoneNumber={studio.phone_number}
+                         address={studio.address}
+                         directions={studio.directions}
+                         postalCode={studio.postal_code}
                          amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
                          cardCloseHandler={props.closeCard}
             />}

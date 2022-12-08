@@ -9,7 +9,7 @@ export const StyledButton = styled.button`
     text-align: center;
     font-weight: bold;
     text-decoration: none;
-    margin: 5%;
+    margin: 4%;
     cursor: pointer;
 
     &:hover {
