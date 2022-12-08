@@ -28,6 +28,28 @@ class SubscriptionOptionsView(ListAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination # this should automatically paginate the request on a get request
 
+class UserSubscriptionView(APIView):
+    """
+    endpoint: /my-subscription/
+
+    Purpose: get the currently logged-in user's subscription
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+
+        # check user auth
+        # try:
+        user = User.objects.get(username=request.user.username)
+        guser = GUser.objects.get(user=user)
+
+        user_sub = guser.subscription
+        # check if user_sub does not exist
+        if (user_sub == None):
+            return Response({"subscription": "none"})
+        return Response({"subscription": user_sub.type})
+        # except:
+        #     return Response({"error": "User not authorized"}, status=401)
 class SubscribeView(APIView):
     """
     endpoint: /subscribe/
@@ -133,6 +155,18 @@ class CancelSubscriptionsView(APIView):
         #future transactions
         future_payments = transactions.filter(timestamp__gt=timezone.now())
 
+        # delete current subscription
+        current_subscription = guser.subscription
+        # delete all future transactions if they exist
+        if current_subscription:
+            transactions.filter(timestamp__gte=timezone.now()).delete()
+        else:
+            # there is no current subscription, return an error
+            return Response({"error": "User subscription doesn't exist"}, status=400)
+        # set user's current subscription to None
+        guser.subscription = None
+        guser.save()
+
         # if there are classes for the user, then cancel all classes past the last payment time
         if guser.class_occurrences.all():
             # get the first class occurence of the user and get the date of the first class
@@ -159,19 +193,6 @@ class CancelSubscriptionsView(APIView):
             # get all the recurrences between the first class and the next payment date and set it to the user's occurences
             # guser.class_occurrences = guser.class_occurrences.all().recurrences.between(first_class_date, next_payment_date, dtstart=first_class_date, inc=True)
             guser.save()
-
-        # delete current subscription
-        current_subscription = guser.subscription
-        # delete all future transactions if they exist
-        if current_subscription:
-            transactions.filter(timestamp__gte=timezone.now()).delete()
-        else:
-            # there is no current subscription, return an error
-            return Response({"error": "User subscription doesn't exist"}, status=400)
-        # set user's current subscription to None
-        guser.subscription = None
-        guser.save()
-
 
         return Response({'your subscription': guser.subscription})
         # except:
