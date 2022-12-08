@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const StyledMapDisplay = styled.div`
-    width: 60%;
+    width: 65%;
+    height: 100%;
+    overflow: hidden;
 
-    div {
-        
+    div.map-container {
+        height: 100%;
     }
 `

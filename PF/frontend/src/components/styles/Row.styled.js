@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 // Flex Item for a Flexbox
 export const StyledRow = styled.div`
-    height: 20%;
-    margin: 10px;
+    margin: 1.5% 0%;
+
 
     a {
         display: inline-block;
