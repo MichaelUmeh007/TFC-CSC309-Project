@@ -19,6 +19,55 @@ import "react-toastify/dist/ReactToastify.css";
 import "./subscriptions.styles.css";
 
 const Subscriptions = () => {
+  /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
+
+  //  state for monthly modal
+  const [showMonthlyModal, setshowMonthlyModal] = useState(false);
+  // open modal function
+  const openMonthlyModal = () => {
+    setshowMonthlyModal((prev) => !prev);
+  };
+
+  // state for yearly modal
+  const [showYearlyModal, setShowYearlyModal] = useState(false);
+  // open modal function
+  const openYearlyModal = () => {
+    setShowYearlyModal((prev) => !prev);
+  };
+
+  //state for cancel modal
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  // open modal function
+  const openCancelModal = () => {
+    setShowCancelModal((prev) => !prev);
+  };
+
+  // join monthly button handler
+  const handleMonthlySub = () => {
+    // TODO: MAKE API CALLS
+    // make the API call to change subscription to monthly
+    // handle the credit card + credit card expired + already subscribed case by
+    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
+    notifySubscriptionSuccess("Sucessfully Subscribed!");
+  };
+
+  // join yearly button handler
+  const handleYearlySub = () => {
+    // TODO: MAKE API CALLS
+    // make the API call to change subscription to yearly
+    // handle the credit card + credit card expired + already subscribed case by calling notify
+    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
+    notifyError("youre mom");
+  };
+
+  // cancel button handler
+  const handleCancelSub = () => {
+    // TODO: make cancel api call
+    // error handling: user doesn't have a subscription
+    // if successful, call the mysubscription API call and setState to what it returns (none), return success message
+    notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
+  };
+
   // toast notifications
   const notifySubscriptionSuccess = (successMsg) =>
     toast.success(successMsg, {
@@ -42,57 +91,6 @@ const Subscriptions = () => {
       progress: undefined,
       theme: "colored",
     });
-  };
-
-  const notify = () => {
-    toast("hello");
-  };
-
-  /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
-
-  //  state for monthly modal
-  const [showMonthlyModal, setshowMonthlyModal] = useState(false);
-  // open modal function
-  const openMonthlyModal = () => {
-    setshowMonthlyModal((prev) => !prev);
-  };
-  // join monthly button handler
-  const handleMonthlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to monthly
-    // handle the credit card + credit card expired + already subscribed case by
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifySubscriptionSuccess("Sucessfully Subscribed!");
-  };
-
-  // state for yearly modal
-  const [showYearlyModal, setShowYearlyModal] = useState(false);
-  // open modal function
-  const openYearlyModal = () => {
-    setShowYearlyModal((prev) => !prev);
-  };
-
-  // join yearly button handler
-  const handleYearlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to yearly
-    // handle the credit card + credit card expired + already subscribed case by calling notify
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifyError("youre mom");
-  };
-
-  //state for cancel modal
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  // open modal function
-  const openCancelModal = () => {
-    setShowCancelModal((prev) => !prev);
-  };
-  // cancel button handler
-  const handleCancelSub = () => {
-    // TODO: make cancel api call
-    // error handling: user doesn't have a subscription
-    // if successful, call the mysubscription API call and setState to what it returns (none), return success message
-    notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
   };
 
   return (
