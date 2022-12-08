@@ -14,11 +14,16 @@ import {
     faBurger,
     faInfoCircle,
   } from "@fortawesome/free-solid-svg-icons";
-  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+import axios from "../../api/axios"
+import { useSignIn } from 'react-auth-kit'
+import {useIsAuthenticated} from 'react-auth-kit';
+
+
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const LOGIN_URL = "/api/token";
+const LOGIN_URL = "/accounts/api/token/";
 
 const headerstyle = {
     marginBottom: "0px",
@@ -40,10 +45,20 @@ function Login(){
 
     // for backend and submission validation
     const [errormessage, setErrorMessage] = useState("");
-
+    const navigate = useNavigate();
+    const signIn = useSignIn()
+    const isAuthenticated = useIsAuthenticated();
+;
     useEffect(() => {
     userRef.current?.focus();
     }, []);
+
+    useEffect(() => {
+        if (isAuthenticated()){
+            navigate("/")
+        }
+    })
+
 
     useEffect(() => {
     const result = USER_REGEX.test(username);
@@ -61,17 +76,68 @@ function Login(){
     }, [username, password]);
 
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        // button hacking check
+        const v1 = USER_REGEX.test(username);
+        const v2 = PWD_REGEX.test(password);
+
+    
+        if (!v1 || !v2) {
+          setErrorMessage("Invalid Entry. Review Input Fields");
+          return;
+        }
+        // TODO: handle submission here
+        try {
+          const request_data = {
+            username: username,
+            password: password
+          };
+
+          const response = await axios.post(LOGIN_URL, JSON.stringify(request_data), {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: false,
+          });
+    
+          // on sucess navigate to home
+          // For redirection after a successful login
+          //localStorage.setItem("token", JSON.stringify(response.data.access));
+          //setAuthHeader(response.data.access);
+          if(signIn(
+            {
+                token: response.data.access,
+                expiresIn: 60,
+                tokenType: "Bearer",
+                authState: response.data})){
+                    navigate("/");// navigate home page here
+                }
+          
+        } catch (err) {
+          if (!err?.response) {
+            setErrorMessage("No server response, possible maintainance at work");
+          } else if (err.response?.status === 401) {
+                setErrorMessage(err.response.data['detail'])
+          } else {
+            setErrorMessage("Login Failed");
+          }
+          errRef.current?.focus();
+        }
+      };
+
+
   return (
-    <StyledFormContainer inputColor="white">
+    <StyledFormContainer inputColor="#D3D3D3">
 
         <StyledFormSection>
 
-        <StyledErrorMessage offscreen={true}>
+        <StyledErrorMessage ref={errRef} offscreen={(errormessage.length === 0)}>
+            {errormessage}
         </StyledErrorMessage>
         <h1 style={headerstyle}> Login</h1>
 
-            <StyledForm>
-                <StyledLabel>
+            <StyledForm onSubmit={handleSubmit}>
+                <StyledLabel htmlFor="username">
                     Username:
                     <StyledIcon
                         icon={faDumbbell}
@@ -103,7 +169,7 @@ function Login(){
                     Begins with a letter <br />
                     Letters, numbers, underscores and hyphens only
                 </StyledInstructionMessage>
-                <StyledLabel>
+                <StyledLabel htmlFor="password">
                     Password:
                     <StyledIcon
                         icon={faDumbbell}
