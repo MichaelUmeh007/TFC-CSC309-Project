@@ -19,7 +19,7 @@ const StudioList = (props) => {
     const filterPath = "/studios/filter/"
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDc4MjM2LCJpYXQiOjE2NzA0NzQ2MzYsImp0aSI6IjY4MjAwZmQ5ZGRlMDQxMDlhZDg1NmYzODczOTEzYWNjIiwidXNlcl9pZCI6M30.SXRXC2IoC02NnMqW9Dvx0J6DAz3SDzF4m0ISVKW3o38";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTE5MzYwLCJpYXQiOjE2NzA1MTU3NjAsImp0aSI6ImY4YTQ1NmZiYmRlYjQwY2U5ZGQwZTdiZGQ2ODU3YWE3IiwidXNlcl9pZCI6M30.MULAqgKmu9Q15oybo4a7J4iUV3FWQ0nlOQ0bFwvj0vA";
     const getStudios = async () => {
         const config = {
             headers: {
@@ -51,6 +51,7 @@ const StudioList = (props) => {
             {studios.map(studio => 
                 <StudioItem 
                     key={studio.id}
+                    id={studio.id}
                     name={studio.name}
                     address={studio.address}
                     phoneNumber={studio.phone_number}

@@ -6,7 +6,7 @@ import StudioList from "../../components/StudioList/StudioList";
 const Studios = (props) => {
     // State to keep track of whether a Studio Details Card is open on the page or not
     const [cardOpen, setCardOpen] = useState(false);
-    const [openStudio, setOpenStudio] = useState(0);
+    const [openStudio, setOpenStudio] = useState(1);
 
     // Handler for the onClick event of the close button for a studio's details card (in MapDisplay)
     const closeCard = () => {
@@ -15,7 +15,9 @@ const Studios = (props) => {
     // Handler for the onClick event of a studio's "view details" button in StudioList
     const openCard = (studioId) => {
         setCardOpen(true);
+        console.log("Card Open value: " + cardOpen)
         setOpenStudio(studioId);
+        console.log("Studio Id value: " + studioId);
     }
 
     return (

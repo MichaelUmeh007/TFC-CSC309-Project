@@ -5,7 +5,8 @@ import styled from "styled-components";
 // Figure out how to round the corners of the shadow if possible
 export const StyledCard = styled.div`
     background-color: white;
-    padding: 5%;
+    padding: 4%;
+    padding-top: 4%;
     border: 2px solid black
     -webkit-box-shadow: 2px 2px 15px  rgba(0, 0, 0, 0.233);
     box-shadow: 2px 2px 15px  rgba(0, 0, 0, 0.233);

@@ -48,7 +48,7 @@ const MapDisplay = (props) => {
         });
     });
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDc4MjM2LCJpYXQiOjE2NzA0NzQ2MzYsImp0aSI6IjY4MjAwZmQ5ZGRlMDQxMDlhZDg1NmYzODczOTEzYWNjIiwidXNlcl9pZCI6M30.SXRXC2IoC02NnMqW9Dvx0J6DAz3SDzF4m0ISVKW3o38";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTE5MzYwLCJpYXQiOjE2NzA1MTU3NjAsImp0aSI6ImY4YTQ1NmZiYmRlYjQwY2U5ZGQwZTdiZGQ2ODU3YWE3IiwidXNlcl9pZCI6M30.MULAqgKmu9Q15oybo4a7J4iUV3FWQ0nlOQ0bFwvj0vA";
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;
         const config = {
@@ -63,11 +63,10 @@ const MapDisplay = (props) => {
     }
 
     // Make a request for a studio's details if the user clicks on that studio
+    // TODO: this doesn't re-render properly when studio is changed
     useEffect(() => {
-        if (props.cardOpen) {
-            getStudioById();
-        }
-    }, [props.cardOpen]);
+        getStudioById();    
+    }, [props.cardOpen, studio]);
 
     // TODO: Make studios return amenities or make view for queries to amenities
     // TODO: Figure out how to display images
