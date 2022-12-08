@@ -43,7 +43,7 @@ const Subscriptions = () => {
   };
 
   // state for user subscription
-  const [userSub, setUserSub] = useState(null);
+  const [userSub, setUserSub] = useState("none");
 
   // auth stuff
   const url = "http://127.0.0.1:8000";
@@ -55,6 +55,7 @@ const Subscriptions = () => {
     // handle the credit card + credit card expired + already subscribed case by
     // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
     notifySubscriptionSuccess("Sucessfully Subscribed!");
+    setUserSub("monthly");
   };
 
   // join yearly button handler
@@ -72,13 +73,24 @@ const Subscriptions = () => {
     // error handling: user doesn't have a subscription
     // if successful, call the mysubscription API call and setState to what it returns (none), return success message
     notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
+    setUserSub("none");
   };
 
   // render for message at the top
   let userSubMessage;
 
   if (userSub === "none") {
-    userSubMessage;
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Select Your TFC Membership</StyledH2>
+    );
+  } else if (userSub == "monthly") {
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Your Membership: Monthly</StyledH2>
+    );
+  } else if (userSub == "yearly") {
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Your Membership: Yearly</StyledH2>
+    );
   }
 
   // toast notifications
@@ -121,8 +133,7 @@ const Subscriptions = () => {
       </h1>
       {/* this needs to be here so toast notifications show up */}
       <ToastContainer />
-      {/* TODO: check the state of the subscription, change  the message accordingly */}
-      <NoMembershipGreeting style={{ textAlign: "center" }} />
+      {userSubMessage}
       {/* two column layout for subscriptions */}
       <Row>
         {/* monthly column */}
