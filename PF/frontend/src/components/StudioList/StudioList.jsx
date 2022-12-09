@@ -17,7 +17,7 @@ const StudioList = (props) => {
     const path = "/studios/all/";    // This could be default page1 request? or we make state for path
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDcwMjAzLCJpYXQiOjE2NzA0NjY2MDMsImp0aSI6IjIzOTZjZjFiNWQxZTQ3MmFiODdkNTQwYzg5NGZiMDcyIiwidXNlcl9pZCI6OH0.uvJHpThlk5phRm7nM0Ept9jazGi_EqK4JeKnJObxo-o";
+    let token = process.env.REACT_APP_ACCESS_TOKEN;
     const getStudios = async () => {
         const config = {
             headers: {

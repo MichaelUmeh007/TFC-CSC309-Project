@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import * as Styles from "./Home.styles";
 import FullNameText from "../../components/Fullname/Fullname";
+import ClassTabs from "./ClassTabs";
+import SubscriptionPanel from "./SubscriptionPanel";
 import "./index.css"
 
 // Current Time -> Greeting Code achieved from: https://stackoverflow.com/questions/13244939/javascript-to-output-text-based-on-users-current-time
@@ -21,10 +23,10 @@ function Home() {
       <Styles.StyledHeaderText>Good { greetingTime } <FullNameText/>!</Styles.StyledHeaderText>
       <Styles.StyledContentBodyContainer>
         <div className="div1">
-          DIV1
+          <ClassTabs/>
         </div>
         <div className="div2">
-          DIV2
+          <SubscriptionPanel/>
         </div>
         <div className="clear"></div>
       </Styles.StyledContentBodyContainer>

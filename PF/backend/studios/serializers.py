@@ -18,6 +18,7 @@ class ClassSerializer(serializers.ModelSerializer):
 class ClassOccurrenceSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='parent_class.name')
     coach = serializers.CharField(source='parent_class.coach')
+    studio_name = serializers.CharField(source='parent_class.studio.name')
     class Meta:
         model = ClassOccurrence
         exclude = ['id', 'parent_class']        # Exclude fields that we don't want to show the user
