@@ -25,7 +25,7 @@ class SubscriptionOptionsView(ListAPIView):
     """
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination # this should automatically paginate the request on a get request
 
 class UserSubscriptionView(APIView):
@@ -47,7 +47,7 @@ class UserSubscriptionView(APIView):
         # check if user_sub does not exist
         if (user_sub == None):
             return Response({"subscription": "none"})
-        return Response({"subscription": user_sub.type})
+        return Response({"subscription": user_sub.type, "subscription_cost": user_sub.cost})
         # except:
         #     return Response({"error": "User not authorized"}, status=401)
 class SubscribeView(APIView):

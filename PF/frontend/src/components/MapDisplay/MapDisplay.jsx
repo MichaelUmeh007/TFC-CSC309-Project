@@ -5,10 +5,12 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import { StyledMapDisplay } from "./MapDisplay.styled";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
 
+import { useAuthHeader } from "react-auth-kit";
+
 const MapDisplay = (props) => {
     // State for component
     const [studio, setStudio] = useState(null);
-
+    const authheader = useAuthHeader();
     // Mapbox access token for 309
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dHlwMTIzIiwiYSI6ImNsYWo2Y3prOTAxZXMzdnFneHA3Zjh1ajUifQ.WP7ebFyD56wq50cyYoQZBQ';
 
@@ -48,13 +50,13 @@ const MapDisplay = (props) => {
         });
     });
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTE5MzYwLCJpYXQiOjE2NzA1MTU3NjAsImp0aSI6ImY4YTQ1NmZiYmRlYjQwY2U5ZGQwZTdiZGQ2ODU3YWE3IiwidXNlcl9pZCI6M30.MULAqgKmu9Q15oybo4a7J4iUV3FWQ0nlOQ0bFwvj0vA";
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json", 
+                Authorization: `${authheader()}`,
+                withCredentials: false
             }
         }
         
