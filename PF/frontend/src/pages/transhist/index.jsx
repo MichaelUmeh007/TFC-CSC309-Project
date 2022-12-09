@@ -7,22 +7,10 @@ const StyledBody = styled.body`
   padding: 30px;
 `;
 function Transactions() {
-    const [buttonPressed, setButtonPressed] = useState(false);
-
-    const buttonPress = () =>{
-        setButtonPressed(!buttonPressed);
-        console.log("button pressed");
-    }
-
-    let button;
-    if (buttonPressed) {
-        button = <p>true</p> 
-    } else {
-        button = <p>false</p>
-    }
-    
-  return <StyledBody>    
-    <h1
+  const [transactionHist, set]
+  return (
+    <StyledBody>
+      <h1
         style={{
           textDecoration: "none",
           margin: "40px",
@@ -33,22 +21,29 @@ function Transactions() {
         }}
       >
         Transactions
-        
-    </h1>
-    <button onClick={buttonPress}>Button</button>
-    {button}
-    
-    <div className="history-container">
-        <BoxHeader>Transaction History</BoxHeader>
-        <BoxDiv>
-            <BoxText>View your transaction history here</BoxText>
-        </BoxDiv>
+      </h1>
 
-        {/* testing */}
-    </div>
-    <div style={{padding: "50px"}}></div>
-    </StyledBody>;
-      
+      <div className="history-container" style={{ width: "50%" }}>
+        <BoxHeader>Transaction History:</BoxHeader>
+        <BoxDiv>
+          <BoxText>View your transaction history here</BoxText>
+        </BoxDiv>
+      </div>
+      <div
+        className="next-container"
+        style={{
+          width: "50%",
+          position: "relative",
+          left: "50%",
+          top: "-355px",
+        }}
+      >
+        <BoxHeader className="next">Next Payment:</BoxHeader>
+        <BoxDiv></BoxDiv>
+      </div>
+      <div style={{ padding: "50px" }}></div>
+    </StyledBody>
+  );
 }
 
 export default Transactions;
