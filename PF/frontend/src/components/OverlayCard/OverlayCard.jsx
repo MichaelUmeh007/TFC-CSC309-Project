@@ -40,19 +40,13 @@ const OverlayCard = (props) => {
 
         <StyledRow>
           <FontAwesomeIcon icon={faPhone} fixedWidth />
-          <StyledLink>
-            {parsePhoneNumber(props.phoneNumber).formatNational()}
-          </StyledLink>
+          <StyledLink>{props.phoneNumber}</StyledLink>
         </StyledRow>
 
         <StyledRow>
           <FontAwesomeIcon icon={faLocationDot} fixedWidth />
-          <StyledLink
-            className="directions-link"
-            href={props.directions}
-            target="_blank"
-          >
-            {props.address} (Directions)
+          <StyledLink href={props.directions} target="_blank">
+            {props.address}
           </StyledLink>
         </StyledRow>
 
@@ -61,18 +55,15 @@ const OverlayCard = (props) => {
           <StyledLink href="">{props.postalCode}</StyledLink>
         </StyledRow>
 
-        {props.amenities.length > 0 && (
-          <StyledRow>
-            <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
-
-            <StyledLink>Amenities</StyledLink>
-            <ul>
-              {props.amenities.map((amenity) => (
-                <li key={amenity.id}>{amenity.type}</li>
-              ))}
-            </ul>
-          </StyledRow>
-        )}
+        <StyledRow>
+          <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
+          <StyledLink>Amenities</StyledLink>
+          <ul>
+            {props.amenities.map((amenity) => (
+              <li key={amenity.id}>{amenity.type}</li>
+            ))}
+          </ul>
+        </StyledRow>
 
         <StyledRow>
           <StyledButton onClick={null}>View Class Schedule</StyledButton>

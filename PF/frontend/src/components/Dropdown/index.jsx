@@ -11,10 +11,15 @@ import {
 } from "./Dropdown.styles";
 import { useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
 
 const Dropdown = () => {
-  // state hook for dropdown being open or closed
+  // state for dropdown
   const [open, setOpen] = useState(false);
+  // state for profile stuff
+  const [pfp, setPfp] = useState(null);
+  const [name, setName] = useState("First Last");
 
   // signout functionanlity
   const signOut = useSignOut();
@@ -25,6 +30,32 @@ const Dropdown = () => {
     signOut();
     navigate("/landing");
   };
+
+  //api call to get profile
+  const authheader = useAuthHeader();
+  const getProfile = async () => {
+    const response = await axios.get(
+      "http://127.0.0.1:8000/accounts/profile/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authheader()}`,
+        },
+        withCredentials: false,
+      }
+    );
+    // get user's full name
+    let fullName = response.data.first_name + " " + response.data.last_name;
+    setName(fullName);
+    // get user pfp url
+    let userAvatar = response.data.avatar;
+  };
+
+  // TODO conditional rendering for the avatar
+
+  useEffect(() => {
+    getProfile();
+  });
 
   let menuRef = useRef();
 
@@ -47,7 +78,7 @@ const Dropdown = () => {
   return (
     <div
       className="Dropdown"
-      style={{ position: "absolute", right: "2%", top: "15%" }}
+      style={{ position: "absolute", right: "1.5%", top: "10px" }}
     >
       {/* TODO: check if backend profile has image, if not give default image */}
       <div className="menu-container" ref={menuRef}>
@@ -59,7 +90,7 @@ const Dropdown = () => {
         {/* dropdown block */}
         <DropdownMenu className={open ? "active" : "inactive"}>
           {/* TODO: here we'll use the User's name that we grabbed from the backend*/}
-          <StyledH3>First Last</StyledH3>
+          <StyledH3>{name}</StyledH3>
           <StyledUL>
             <DropdownItem
               text={"My Profile"}

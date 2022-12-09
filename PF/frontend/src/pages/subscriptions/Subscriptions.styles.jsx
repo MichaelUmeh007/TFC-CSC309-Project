@@ -21,6 +21,7 @@ export const Row = styled.div`
   position: absolute;
   left: 17.5%;
   width: 65%;
+
 `;
 
 export const Column = styled.div`
@@ -68,9 +69,9 @@ export const CancellationDiv = styled.div`
   border-width: 2px;
   border-color: black;
   top: 500px;
-  width: 65%;
+  width: 70%;
   height: 300px;
-  left: 17.5%;
+  left: 15%;
   padding: 15px;
   margin: 15px;
 `;
