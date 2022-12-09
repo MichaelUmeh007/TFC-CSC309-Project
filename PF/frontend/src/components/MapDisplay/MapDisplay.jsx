@@ -78,7 +78,8 @@ const MapDisplay = (props) => {
     return (
         <StyledMapDisplay>
             {props.cardOpen && 
-            <OverlayCard name={studio.name}
+            <OverlayCard id={studio.id}
+                         name={studio.name}
                          imageUrl="https://upload.wikimedia.org/wikipedia/commons/7/7c/Fit_young_man_doing_deadlift_exercise_in_gym.jpg"
                          phoneNumber={studio.phone_number}
                          address={studio.address}

@@ -11,8 +11,8 @@ export const StyledCard = styled.div`
     -webkit-box-shadow: 2px 2px 15px  rgba(0, 0, 0, 0.233);
     box-shadow: 2px 2px 15px  rgba(0, 0, 0, 0.233);
     
-    width: 30%;
-    height: 60%;
+    width: 40%;
+    height: 65%;
     margin: 2%;
     position: absolute;
     right: 10%;

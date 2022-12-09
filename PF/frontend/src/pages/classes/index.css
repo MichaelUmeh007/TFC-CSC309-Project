@@ -7,6 +7,10 @@
     width: 66.6%;
 }
 
+.div1-schedule {
+    width: 100%;
+}
+
 .div2 {
     width: 33.3%;
 }
@@ -120,4 +124,23 @@ button {
     font-weight: bold;
     font-size: 2em;
     text-align: center;
+}
+
+.tabTitle-schedule {
+    font-family: 'Alexandria', sans-serif;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.container-schedule {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 90%;
+    height: 100%;
+    background: #f1f1f1;
+    margin: 100px auto 0;
+    word-break: break-all;
+    border: 1px solid rgba(0, 0, 0, 0.274);
 }

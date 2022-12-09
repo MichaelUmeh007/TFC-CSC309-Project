@@ -13,11 +13,18 @@ import {
     faCircleInfo,
     faXmark,
   } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 // Figure out how to display multiple images (maybe in some )
 // Figure out how to display "X" button to close it
 // FIgure
 const OverlayCard = (props) => {
+    // Handling redirection to class schedule page when user views details for a studio
+    const navigate = useNavigate();
+    const viewDetailsHandler = () => {
+        navigate(`/studios/${props.id}/classes`);
+    };
+
     return (
         <StyledCard>
             <StyledCloseButton className="close-btn" onClick={props.cardCloseHandler}>
@@ -63,7 +70,7 @@ const OverlayCard = (props) => {
                 </StyledRow>}
             
                 <StyledRow>
-                    <StyledButton onClick={null}>View Class Schedule</StyledButton>
+                    <StyledButton onClick={viewDetailsHandler}>View Class Schedule</StyledButton>
                 </StyledRow>
             </div>
         </StyledCard>        

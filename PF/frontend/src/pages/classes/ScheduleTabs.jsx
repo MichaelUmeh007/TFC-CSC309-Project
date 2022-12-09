@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import dateFormat from "dateformat";
 import { useAuthHeader } from "react-auth-kit";
 
 import { StyledClassList } from "../../components/ClassList/ClassList.styled";
@@ -30,13 +31,13 @@ function incrementLoopingDate (date, inc) {
 // Class List Component
 const ClassList = (props) => {
     // If there's no classes, just render a message notifying user of this
-    if (props.classes === []) {
+    if (props.classes.length === 0) {
         return (<p>No Classes scheduled for this day.</p>);
     }
 
     // TODO: Should probably add a button to ClassItem (Enrol for studio's schedule, Drop for user's schedule)
-    <StyledClassList>
-        {props.classes.map(singleClass => 
+    return (<StyledClassList>
+        {props.classes && props.classes.map(singleClass => 
                 <ClassItem 
                     key={singleClass.id}
                     name={singleClass.name}
@@ -46,7 +47,8 @@ const ClassList = (props) => {
                     end_datetime={singleClass.end_datetime}
                     num_attending={singleClass.num_attending}/>
             )}
-    </StyledClassList>
+    </StyledClassList>);
+    
 }
 
 // Tab Button Component
@@ -55,7 +57,7 @@ const TabButton = (props) => {
         <button
             className={props.toggleState === props.id ? "tabs active-tabs" : "tabs"}
             onClick={() => props.toggleTab(props.id)}>
-            <span className="tabTitle">{props.date}</span>
+            <span className="tabTitle-schedule">{dateFormat(props.date.toString(), "ddd mmm d, yyyy")}</span>
         </button>
     );
 }
@@ -64,7 +66,7 @@ const TabButton = (props) => {
 const ContentDiv = (props) => {
     return (
         <div className={props.toggleState === props.id ? "content  active-content" : "content"}>
-            <ClassList />
+            <ClassList classes={props.classes} />
         </div>
     );  
 }
@@ -81,27 +83,31 @@ const ScheduleTabs = (props) => {
         setToggleState(index);
     };
 
-    // State that keeps track of the classes for this studio
-    const [allClasses, setAllClasses] = useState([]);
-
     // Get the current date, and then generate tabs corresponding to the next week
-    const tabs = [];
-    for (let i = 1; i <= 7; i++) {
-        // Get the current date and increment the day by i - 1
-        let day = incrementLoopingDate(new Date(), i - 1);
-        const tab = {
-            id: i,
-            date: day
+    const [tabs, setTabs] = useState(null);
+    useEffect(() => {
+        const newTabs = [];
+        for (let i = 1; i <= 7; i++) {
+            // Get the current date and increment the day by i - 1
+            let day = incrementLoopingDate(new Date(), i - 1);
+            const tab = {
+                id: i,
+                date: day
+            }
+            newTabs.push(tab);
         }
-        tabs.push(tab);
-    }
+        setTabs(newTabs);
+    }, []);
+    
+    // State for keeping track of all classes
+    // State that keeps track of the classes for this studio
+    const [allClasses, setAllClasses] = useState(null);
 
     // TODO: Make a request to get a studio's class schedule
     // Console.log the output before working it so we know what we're expecting
     const getClassesForStudio = async () => {
         // TODO: Figure out how to get all pages later - make a request for all pages
-        // const url = `http://localhost:8000/studios/${props.studioId}/classes/schedule/`;
-        const url = `http://localhost:8000/studios/3/classes/schedule/`;
+        const url = `http://localhost:8000/studios/${props.studioId}/classes/schedule/`;
         const config = {
             headers: {
                 "Content-Type": "application/json", 
@@ -116,29 +122,41 @@ const ScheduleTabs = (props) => {
     }
 
     // This could be changed for if we need to paginate (dependency on page number)
-    useEffect(() => {
-        getClassesForStudio();    
-    });
-    
+    useEffect(() => {   
+        getClassesForStudio();
+    }, [tabs]);
+
+    const isRightDay = (c, tab) => {
+        const milliseconds = Date.parse(c.start_datetime);
+        const classDate = new Date(milliseconds);
+        return (classDate.getDay() === tab.date.getDay()) && (classDate.getMonth() === tab.date.getMonth());
+    }
+
+    // Function for filtering dates
+    const classFilter = (tab) => {
+        if (allClasses) {
+            const validClasses = allClasses.filter(c => isRightDay(c, tab));
+            return validClasses;
+        } 
+    }
 
     return (
-        <div className="container">
+        <div className="container-schedule">
             <div className="bloc-tabs">
-                {tabs.map((tab) => 
+                {allClasses && tabs.map((tab) => 
                     <TabButton key={tab.id} 
                             id={tab.id} 
+                            date={tab.date}
                             toggleState={toggleState} 
                             toggleTab={toggleTab} 
                     />
                 )}
             </div>
             <div className="content-tabs">
-                {tabs.map(tab =>
+                {allClasses && tabs.map(tab =>
                 <ContentDiv key={tab.id} 
                             id={tab.id}
-                            classes={allClasses.filter((c) => {
-                                return c.start_datetime.day === tab.date.day;
-                            })}
+                            classes={classFilter(tab)}
                             toggleState={toggleState}  
                 />)}
             </div>
