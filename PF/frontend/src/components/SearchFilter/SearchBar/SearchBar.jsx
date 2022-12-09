@@ -1,5 +1,4 @@
 import React from "react";
-import { StyledButton } from "../../styles/Button.styled";
 import { StyledSearchBar } from "./SearchBar.styled";
 
 // onChange here could potentially be onKeyUp instead

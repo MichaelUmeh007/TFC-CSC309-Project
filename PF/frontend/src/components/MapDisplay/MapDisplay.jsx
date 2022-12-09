@@ -70,7 +70,6 @@ const MapDisplay = (props) => {
 
     // TODO: Make studios return amenities or make view for queries to amenities
     // TODO: Figure out how to display images
-    // TODO: Look up phone number formatter (library) for rect
 
     return (
         <StyledMapDisplay>
