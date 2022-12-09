@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import StyledLogo from "../../components/logo";
+import StyledLogo from "../../components/Logo";
 import StyledLink from "../../components/Common/Link";
-import logo from "../../../src/TFC_logo.png"
+import logo from "../../TFC_logo.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
-import './landing.styles.css';
+import MonthlyCost from "../../components/SubscriptionContext/MonthlyCost";
+import './index.css';
 
 const StyledBody = styled.body`
     padding-top: 20px;
@@ -110,9 +111,9 @@ function Landing() {
                 <StyledParagraph>Not currently a member?
                 </StyledParagraph>
                 <StyledParagraph>Subscription plans start at
-                    $(price)/month.
+                    $<MonthlyCost/>/month.
                 </StyledParagraph>
-                <StyledParagraph> Sign-up now and get <span style={{ fontWeight: '400' }}>1 month free</span> on us!</StyledParagraph>
+                <StyledParagraph> Sign-up now and get <span style={{ fontWeight: 'bold' }}>1 month free</span> on us!</StyledParagraph>
                 
             </StyledHeaderContainer>
             <StyledContentBodyContainer>

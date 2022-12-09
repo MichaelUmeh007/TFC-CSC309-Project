@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledInput = styled.input`
     @font-face {
-        font-family: 'Alexandria', 'Roboto';
+        font-family: 'Alexandria', sans-serif;
         src: url('https://fonts.googleapis.com/css2?family=Alexandria:wght@700&display=swap');
     }
     font-size: 22px;

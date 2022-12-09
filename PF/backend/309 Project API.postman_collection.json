@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d3932139-50f2-4d1a-a5f0-92f821d2ce76",
+		"_postman_id": "f9f70861-57f2-4413-abfa-b799c08e3a53",
 		"name": "309 Project API",
 		"description": "**CSC309 Project Backend API Documentation**\n\nThis documentation contains the endpoints, along with descriptions and examples of payloads, for all the functionality defined in the Project's User Stories.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24509501"
+		"_exporter_id": "24173418"
 	},
 	"item": [
 		{
@@ -158,7 +158,7 @@
 					"query": [
 						{
 							"key": "",
-							"value": null
+							"value": ""
 						}
 					]
 				},
@@ -881,6 +881,44 @@
 				"description": "Displays the logged-in user's payment history and the upcoming payment, if it exists.\n\n```\nRequest Body: None\nQuery Parameter Options: None\nAuthorization: Bearer Token\nSample Request Body:\nSuccess (200 OK):\n{\n    \"payment_history\": [\n        {\n            \"amount\": 19.99,\n            \"timestamp\": \"2022-11-19T01:39:38.066492Z\"\n        }\n    ],\n    \"next_payment\": {\n        \"amount\": \"19.99\",\n        \"timestamp\": \"2022-12-19T01:39:38.083553Z\"\n    }\n}\nFailure (401 Unauthorized):\n{\n    \"error\": \"User not authorized\"\n}\n\n```"
 			},
 			"response": []
+		},
+		{
+			"name": "my subscription",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{{baseURL}}",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
 		}
 	]
 }

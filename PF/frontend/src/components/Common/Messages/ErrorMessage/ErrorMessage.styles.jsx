@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledErrorMessage = styled.p`
 
-    position: ${props => props.offscreen ? "absolute" : "static"};
+    position: ${props => props.offscreen ? "absolute" : "relative"};
     left: ${props => props.offscreen ? "-9999px" : "0px"};
     background-color: lightpink;
     color: firebrick;

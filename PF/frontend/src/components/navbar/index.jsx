@@ -1,10 +1,10 @@
 import { StyledNav } from "./Navbar.styles";
 import logo from "../../TFC_logo.png"
-import StyledLogo from "../logo";
+import StyledLogo from "../Logo";
 import { useLocation } from 'react-router-dom';
 
 // The routes that should exclude the navigation bar
-const excludeNavBarRoutes = ["/landing"];
+const excludeNavBarRoutes = ["/landing", "/profile"];
 
 function Navbar(props) {
     const {pathname} = useLocation();
