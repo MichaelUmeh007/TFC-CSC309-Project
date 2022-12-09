@@ -20,7 +20,7 @@ import {
   } from "@fortawesome/free-solid-svg-icons";
 import validator from "validator";
 import FormData from 'form-data'
-import logo from "../../TFC_logo.png";
+import logo from "../../profile.png";
 import { useAuthHeader } from "react-auth-kit";
 
 

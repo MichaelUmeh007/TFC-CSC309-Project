@@ -7,18 +7,147 @@ import {
   StyledH3,
   StyledSpan,
   StyledButton,
-  FineText,
   FineTextContainer,
   CancellationDiv,
 } from "./Subscriptions.styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal";
-import { GlobalStyle } from "../../globalStyles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./subscriptions.styles.css";
+import "./index.css";
+import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
 
 const Subscriptions = () => {
+  /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
+
+  //  state for monthly modal
+  const [showMonthlyModal, setshowMonthlyModal] = useState(false);
+  // open modal function
+  const openMonthlyModal = () => {
+    setshowMonthlyModal((prev) => !prev);
+  };
+
+  // state for yearly modal
+  const [showYearlyModal, setShowYearlyModal] = useState(false);
+  // open modal function
+  const openYearlyModal = () => {
+    setShowYearlyModal((prev) => !prev);
+  };
+
+  //state for cancel modal
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  // open modal function
+  const openCancelModal = () => {
+    setShowCancelModal((prev) => !prev);
+  };
+
+  // state for user subscription
+  const [userSub, setUserSub] = useState("none");
+
+  // auth stuff
+  const authheader = useAuthHeader();
+
+  // function to get user subscription
+  const getSub = async () => {
+    const response = await axios.get(
+      "http://127.0.0.1:8000/subscriptions/my-subscription/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authheader()}`,
+        },
+        withCredentials: false,
+      }
+    );
+    setUserSub(response.data.subscription);
+  };
+
+  // function to set user subscription
+  const setSub = async (newSub) => {
+    try {
+      await axios.post(
+        "http://127.0.0.1:8000/subscriptions/subscribe/",
+        JSON.stringify({ type: newSub }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authheader()}`,
+          },
+          withCredentials: false,
+        }
+      );
+      // if the request succeeds, then set the usersub to the passed in value
+      setUserSub(newSub);
+      // create a success toast
+      notifySubscriptionSuccess("Sucessfully Subscribed!");
+    } catch (error) {
+      // if error occurs, create an error toast with the error msg
+      notifyError(error.response.data.error);
+    }
+  };
+
+  const cancelSub = async () => {
+    try {
+      await axios.post(
+        "http://127.0.0.1:8000/subscriptions/cancel/",
+        JSON.stringify({}),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authheader()}`,
+          },
+          withCredentials: false,
+        }
+      );
+      // if request succeeds, set the usersub to none
+      setUserSub("none");
+      // create a success toast
+      notifySubscriptionSuccess("Sucessfully Cancelled.");
+    } catch (error) {
+      console.log(error.response);
+      // if error occurs, create an error toast with the error msg
+      notifyError(error.response.data.error);
+    }
+  };
+
+  //useEffect to set the initial state of the user subscription
+  useEffect(() => {
+    getSub();
+  });
+
+  // join monthly button handler
+  const handleMonthlySub = () => {
+    setSub("monthly");
+  };
+
+  // join yearly button handler
+  const handleYearlySub = () => {
+    setSub("yearly");
+  };
+
+  // cancel button handler
+  const handleCancelSub = () => {
+    cancelSub();
+  };
+
+  // render for message at the top
+  let userSubMessage;
+
+  if (userSub === "none") {
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Select Your TFC Membership</StyledH2>
+    );
+  } else if (userSub === "monthly") {
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Your Membership: Monthly</StyledH2>
+    );
+  } else if (userSub === "yearly") {
+    userSubMessage = (
+      <StyledH2 className="membership-msg">Your Membership: Yearly</StyledH2>
+    );
+  }
+
   // toast notifications
   const notifySubscriptionSuccess = (successMsg) =>
     toast.success(successMsg, {
@@ -44,57 +173,6 @@ const Subscriptions = () => {
     });
   };
 
-  const notify = () => {
-    toast("hello");
-  };
-
-  /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
-
-  //  state for monthly modal
-  const [showMonthlyModal, setshowMonthlyModal] = useState(false);
-  // open modal function
-  const openMonthlyModal = () => {
-    setshowMonthlyModal((prev) => !prev);
-  };
-  // join monthly button handler
-  const handleMonthlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to monthly
-    // handle the credit card + credit card expired + already subscribed case by
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifySubscriptionSuccess("Sucessfully Subscribed!");
-  };
-
-  // state for yearly modal
-  const [showYearlyModal, setShowYearlyModal] = useState(false);
-  // open modal function
-  const openYearlyModal = () => {
-    setShowYearlyModal((prev) => !prev);
-  };
-
-  // join yearly button handler
-  const handleYearlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to yearly
-    // handle the credit card + credit card expired + already subscribed case by calling notify
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifyError("youre mom");
-  };
-
-  //state for cancel modal
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  // open modal function
-  const openCancelModal = () => {
-    setShowCancelModal((prev) => !prev);
-  };
-  // cancel button handler
-  const handleCancelSub = () => {
-    // TODO: make cancel api call
-    // error handling: user doesn't have a subscription
-    // if successful, call the mysubscription API call and setState to what it returns (none), return success message
-    notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
-  };
-
   return (
     <StyledBody>
       <h1
@@ -110,8 +188,7 @@ const Subscriptions = () => {
       </h1>
       {/* this needs to be here so toast notifications show up */}
       <ToastContainer />
-      {/* TODO: check the state of the subscription, change  the message accordingly */}
-      <NoMembershipGreeting style={{ textAlign: "center" }} />
+      {userSubMessage}
       {/* two column layout for subscriptions */}
       <Row>
         {/* monthly column */}
@@ -282,15 +359,5 @@ const Subscriptions = () => {
     </StyledBody>
   );
 };
-// helper function that will take in the user's subscription data and print it out
-function MembershipGreeting(props) {
-  return <StyledH2 className="membership-msg">Your Membership: ...</StyledH2>;
-  // props.subscription or something will be passed in and then printed
-}
-function NoMembershipGreeting() {
-  return (
-    <StyledH2 className="membership-msg">Select Your TFC Membership</StyledH2>
-  );
-}
 
 export default Subscriptions;

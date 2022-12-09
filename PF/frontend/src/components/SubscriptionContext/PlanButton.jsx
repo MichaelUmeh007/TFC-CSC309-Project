@@ -8,26 +8,26 @@ const url = "http://127.0.0.1:8000";
 const path = "/subscriptions/my-subscription/";
 
 function App() {
-    const [post, setPost] = useState(null);
-    const authheader = useAuthHeader();
-    const config = {
-        headers: {
-            "Content-Type": "application/json", 
-            Authorization: `${authheader()}`,
-            withCredentials: false
-        }
-    }
-    useEffect(() => {
-        axios.get(`${url}${path}`, config).then((response) => {
-            setPost(response.data["subscription"]);
-        });
-    }, []);
+  const [post, setPost] = useState(null);
+  const authheader = useAuthHeader();
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${authheader()}`,
+      withCredentials: false,
+    },
+  };
+  useEffect(() => {
+    axios.get(`${url}${path}`, config).then((response) => {
+      setPost(response.data["subscription"]);
+    });
+  }, []);
 
-    if (!post) return (<StyledChangePlanButton> Join Today! </StyledChangePlanButton>);
-
-    return (
-        <StyledChangePlanButton> Change Plan </StyledChangePlanButton>
-    );
+  if (post === undefined) {
+    return <StyledChangePlanButton> Join Today! </StyledChangePlanButton>;
+  } else {
+    return <StyledChangePlanButton> Change Plan </StyledChangePlanButton>;
+  }
 }
 
 export default App;
