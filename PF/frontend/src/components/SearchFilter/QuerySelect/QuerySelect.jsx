@@ -28,7 +28,11 @@ const QuerySelect = (props) => {
     return (
         <StyledQuerySelect>
             <h3>Search By:</h3>
-            <Select styles={customStyles} options={props.options} onChange={props.onChange} defaultValue={props.defaultValue} />
+            <Select className="search-select" 
+                    styles={customStyles} 
+                    options={props.options} 
+                    defaultValue={props.defaultValue} 
+                    onChange={props.querySelectHandler} />
         </StyledQuerySelect>
     );
 }

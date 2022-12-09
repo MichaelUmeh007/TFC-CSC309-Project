@@ -15,31 +15,45 @@ const StudioList = (props) => {
     // Consider making this a global with context
     const url = "http://127.0.0.1:8000";
     const allPath = "/studios/all/";    // This could be default page1 request? or we make state for path
-    const filterPath = "/studios/filter/"
+    const filterPath = "/studios/filter"
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTMxMzA1LCJpYXQiOjE2NzA1Mjc3MDUsImp0aSI6IjU5ZDRhY2M1YzAzYTQyZGFiYmViZGFjYmRiYmYxNTQzIiwidXNlcl9pZCI6M30.HsHxebhHVCE6y8lKgQAWvEZG2amqUhaSVwyA17e6bdA";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTUxNjcxLCJpYXQiOjE2NzA1NDgwNzEsImp0aSI6IjU2NjUzNDIwZjNhYjQ4YzBiZDZmYmZiNGRkNjQ1ODYyIiwidXNlcl9pZCI6M30.d_-oE_kxbTm0BwFjs5MxCI5dKXQc8TnlKFDlhhqj_do";
     const getStudios = async () => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        }
-
         // If there is no search query, send a request to get ALL studios
         let response = {};
         if (!props.searchValue) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+
             response = await axios.get(`${url}${allPath}`, config);
+            setStudios(response.data);
         } else {
             // If there is a search query, make a request to the filter endpoint
             const queryParams = {};
             queryParams[props.searchQuery] = props.searchValue;
 
-            response = await axios.get(`${url}${filterPath}`, {params: queryParams}, config);
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                params: queryParams
+            }
+            
+            // Only render a response of studios if there's a non-empty list
+            response = await axios.get(`${url}${filterPath}`, config);
+            console.log(response);
+            if (response.data.results) {
+                setStudios(response.data.results);
+            }
+            
         }
-        
-        setStudios(response.data);
+    
     }
 
     // Fetches and re-renders the list of studios as the user makes a search

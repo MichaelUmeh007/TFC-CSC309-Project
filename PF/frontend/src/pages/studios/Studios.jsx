@@ -22,10 +22,10 @@ const Studios = (props) => {
     }
 
     // State to keep track of the query the user is making against the list of studios if applicable
-    const [queryType, setQueryType] = useState(null);
+    const [queryType, setQueryType] = useState("");
     // Set the type of query that the user is making 
     const setQueryTypeHandler = (queryObj) => {
-        setQueryType(queryObj);
+        setQueryType(queryObj.value);
     };
 
     const [searchValue, setSearchValue] = useState("");
@@ -33,6 +33,9 @@ const Studios = (props) => {
     const setSearchValueHandler = (value) => {
         setSearchValue(value);
     }
+
+    // Now have to refactor this to have StudiosList be passed in from parents
+    
 
     return (
         <StyledStudios className="studios">

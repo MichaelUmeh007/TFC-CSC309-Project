@@ -48,7 +48,7 @@ const MapDisplay = (props) => {
         });
     });
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTMxMzA1LCJpYXQiOjE2NzA1Mjc3MDUsImp0aSI6IjU5ZDRhY2M1YzAzYTQyZGFiYmViZGFjYmRiYmYxNTQzIiwidXNlcl9pZCI6M30.HsHxebhHVCE6y8lKgQAWvEZG2amqUhaSVwyA17e6bdA";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTUxNjcxLCJpYXQiOjE2NzA1NDgwNzEsImp0aSI6IjU2NjUzNDIwZjNhYjQ4YzBiZDZmYmZiNGRkNjQ1ODYyIiwidXNlcl9pZCI6M30.d_-oE_kxbTm0BwFjs5MxCI5dKXQc8TnlKFDlhhqj_do";
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;
         const config = {
@@ -66,7 +66,7 @@ const MapDisplay = (props) => {
     // TODO: this doesn't re-render properly when studio is changed
     useEffect(() => {
         getStudioById();    
-    }, [props.cardOpen, studio]);
+    }, [props.cardOpen]);
 
     // TODO: Make studios return amenities or make view for queries to amenities
     // TODO: Figure out how to display images
