@@ -5,10 +5,12 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import { StyledMapDisplay } from "./MapDisplay.styled";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
 
+import { useAuthHeader } from "react-auth-kit";
+
 const MapDisplay = (props) => {
     // State for component
     const [studio, setStudio] = useState(null);
-
+    const authheader = useAuthHeader();
     // Mapbox access token for 309
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dHlwMTIzIiwiYSI6ImNsYWo2Y3prOTAxZXMzdnFneHA3Zjh1ajUifQ.WP7ebFyD56wq50cyYoQZBQ';
 
@@ -33,6 +35,8 @@ const MapDisplay = (props) => {
             center: [lng, lat],
             zoom: zoom
         });
+
+
     });
 
     // Update coordinates as user interacts with the map
@@ -48,13 +52,13 @@ const MapDisplay = (props) => {
         });
     });
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTE5MzYwLCJpYXQiOjE2NzA1MTU3NjAsImp0aSI6ImY4YTQ1NmZiYmRlYjQwY2U5ZGQwZTdiZGQ2ODU3YWE3IiwidXNlcl9pZCI6M30.MULAqgKmu9Q15oybo4a7J4iUV3FWQ0nlOQ0bFwvj0vA";
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json", 
+                Authorization: `${authheader()}`,
+                withCredentials: false
             }
         }
         
@@ -66,11 +70,10 @@ const MapDisplay = (props) => {
     // TODO: this doesn't re-render properly when studio is changed
     useEffect(() => {
         getStudioById();    
-    }, [props.cardOpen, studio]);
+    }, [props.cardOpen]);
 
     // TODO: Make studios return amenities or make view for queries to amenities
     // TODO: Figure out how to display images
-    // TODO: Look up phone number formatter (library) for rect
 
     return (
         <StyledMapDisplay>
@@ -81,11 +84,10 @@ const MapDisplay = (props) => {
                          address={studio.address}
                          directions={studio.directions}
                          postalCode={studio.postal_code}
-                         amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
+                         amenities={studio.amenities}
                          cardCloseHandler={props.closeCard}
             />}
             <div ref={mapContainer} className="map-container" />
-            {/* Need to make the code below use a portal, make it a modal */}
             
         </StyledMapDisplay>
 

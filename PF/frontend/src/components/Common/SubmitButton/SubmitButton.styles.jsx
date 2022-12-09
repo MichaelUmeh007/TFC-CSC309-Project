@@ -10,5 +10,8 @@ export const StyledSubmitButton = styled.button`
     color: ${props=> props.disabled? "dark grey": "white"};
     padding: 1rem;
     margin-top: 1rem;
+    &:hover {
+    cursor: pointer;
+  }
     
 `

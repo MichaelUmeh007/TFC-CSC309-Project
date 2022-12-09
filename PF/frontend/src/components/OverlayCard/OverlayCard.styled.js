@@ -23,4 +23,8 @@ export const StyledCard = styled.div`
         flex-wrap: wrap;
         align-items: left;
     }
+
+    a.directions-link:hover {
+        color: blue;
+    }
 `
