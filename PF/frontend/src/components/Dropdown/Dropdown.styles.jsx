@@ -58,7 +58,7 @@ export const DropdownMenu = styled.div`
   background-color: black;
   border-radius: 8px;
   padding: 10px 20px;
-  width: 200px;
+  width: 250px;
   color: white;
 `;
 
