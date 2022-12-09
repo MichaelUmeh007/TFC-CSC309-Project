@@ -11,12 +11,13 @@ import {
   FineTextContainer,
   CancellationDiv,
 } from "./Subscriptions.styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal";
 import { GlobalStyle } from "../../globalStyles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
+import axios from "axios";
 
 const Subscriptions = () => {
   /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
@@ -47,6 +48,24 @@ const Subscriptions = () => {
 
   // auth stuff
   const url = "http://127.0.0.1:8000";
+  const mySubPath = "/subscriptions/my-subscription"
+
+  //useEffect to set the initial state of the user subscription
+  let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTM2MTE5LCJpYXQiOjE2NzA1MzI0NzcsImp0aSI6ImNhY2U3NTg1N2RjZDQ0ODM5OGU4ZmNkYWI3YTI2MzhmIiwidXNlcl9pZCI6M30.70QXWy_VSHCVZfEGQMe-XkbNTP0gNMk1GKAht0nNkrE';
+  useEffect(() => {
+    const config = {
+      headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+      }
+    }
+
+    axios.get(url + mySubPath, config).then((response) => {
+      console.log(response.data["subscription"])
+    })
+  }, [])
+  
+
 
   // join monthly button handler
   const handleMonthlySub = () => {
@@ -83,11 +102,11 @@ const Subscriptions = () => {
     userSubMessage = (
       <StyledH2 className="membership-msg">Select Your TFC Membership</StyledH2>
     );
-  } else if (userSub == "monthly") {
+  } else if (userSub === "monthly") {
     userSubMessage = (
       <StyledH2 className="membership-msg">Your Membership: Monthly</StyledH2>
     );
-  } else if (userSub == "yearly") {
+  } else if (userSub === "yearly") {
     userSubMessage = (
       <StyledH2 className="membership-msg">Your Membership: Yearly</StyledH2>
     );
