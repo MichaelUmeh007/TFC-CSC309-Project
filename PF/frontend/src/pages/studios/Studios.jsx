@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import MapDisplay from "../../components/MapDisplay/MapDisplay";
 import { StyledStudios } from "./Studios.styled";
 import StudioList from "../../components/StudioList/StudioList";
+import SearchFilter from "../../components/SearchFilter/SearchFilter";
+
 const Studios = (props) => {
     // State to keep track of whether a Studio Details Card is open on the page or not
     const [cardOpen, setCardOpen] = useState(false);
@@ -18,11 +20,29 @@ const Studios = (props) => {
         setOpenStudio(studioId);
         console.log("Studio Id value: " + studioId);
     }
+
+    // State to keep track of the query the user is making against the list of studios if applicable
+    const [queryType, setQueryType] = useState("");
+    // Set the type of query that the user is making 
+    const setQueryTypeHandler = (queryObj) => {
+        setQueryType(queryObj.value);
+    };
+
+    const [searchValue, setSearchValue] = useState("");
+    // Set the value of the current search made by the user (in the search bar)
+    const setSearchValueHandler = (value) => {
+        setSearchValue(value);
+    }
+
+    // Now have to refactor this to have StudiosList be passed in from parents
+    
+
     return (
         <StyledStudios className="studios">
             <h2 id="studios-header">Studios</h2>
+            <SearchFilter querySelectHandler={setQueryTypeHandler} searchValueHandler={setSearchValueHandler} />
             <div className="split-screen">
-                <StudioList openCard={openCard} />
+                <StudioList openCard={openCard} searchQuery={queryType} searchValue={searchValue} />
                 <MapDisplay cardOpen={cardOpen} closeCard={closeCard} studioId={openStudio}/>
             </div>
         </StyledStudios>

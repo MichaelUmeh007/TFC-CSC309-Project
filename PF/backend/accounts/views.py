@@ -16,7 +16,7 @@ from accounts.models import GUser
 from studios.models import ClassOccurrence
 from studios.serializers import ClassOccurrenceSerializer
 from accounts.serializers import GUserSerializer, ProfileSerializer, PaymentSerializer
-from accounts.paginators import StandardResultsSetPagination
+from accounts.paginators import StandardResultsSetPagination, ScheduleResultsSetPagination
 
 
 
@@ -59,7 +59,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 class ClassesProfileView(generics.ListAPIView):
     model = ClassOccurrence
     serializer_class = ClassOccurrenceSerializer
-    pagination_class = StandardResultsSetPagination
+    pagination_class = ScheduleResultsSetPagination
     
     def get_queryset(self, *args, **kwargs):
         gazer = get_object_or_404(GUser, user=self.request.user)
