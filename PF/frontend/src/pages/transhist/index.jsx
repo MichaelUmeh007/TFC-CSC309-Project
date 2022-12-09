@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { BoxDiv, BoxHeader, BoxText } from "./Transactions.styles";
+import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
+import { useEffect } from "react";
 
 const StyledBody = styled.body`
   margin-top: 80px;
@@ -10,7 +13,28 @@ function Transactions() {
   // state for transaction history
   const [transactionHist, setTransactionHist] = useState([]);
   // state for next payment
-  const [nextPayment, setNextPayment] = useState("");
+  const [nextPayment, setNextPayment] = useState({});
+
+  const authheader = useAuthHeader();
+  // function for transaction history call
+  const getHist = async () => {
+    const response = await axios.get(
+      "http://127.0.0.1:8000/accounts/profile/payment-history/",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authheader()}`,
+        },
+        withCredentials: false,
+      }
+    );
+    setTransactionHist(response.data.payment_history);
+    setNextPayment(response.data.next_payment);
+  };
+
+  useEffect(() => {
+    getHist();
+  });
 
   return (
     <StyledBody>
