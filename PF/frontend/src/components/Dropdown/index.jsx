@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useState, useEffect } from "react";
-import profilepic from "../../profile.png";
+import defaultprofilepic from "../../profile.png";
 import {
   DropdownMenu,
   StyledUL,
@@ -49,10 +49,18 @@ const Dropdown = () => {
     setName(fullName);
     // get user pfp url
     let userAvatar = response.data.avatar;
+    setPfp(userAvatar);
   };
 
   // TODO conditional rendering for the avatar
-
+  let avatarComponent;
+  if (pfp === null) {
+    avatarComponent = (
+      <ProfilePic src={defaultprofilepic} alt="profile"></ProfilePic>
+    );
+  } else {
+    avatarComponent = <ProfilePic src={pfp} alt="profile"></ProfilePic>;
+  }
   useEffect(() => {
     getProfile();
   });
@@ -84,7 +92,7 @@ const Dropdown = () => {
       <div className="menu-container" ref={menuRef}>
         {/* profile picture button that opens dropdown with onclick function that sets state*/}
         <div className="menu-trigger" onClick={() => setOpen(!open)}>
-          <ProfilePic src={profilepic} alt="profile"></ProfilePic>
+          {avatarComponent}
         </div>
 
         {/* dropdown block */}
