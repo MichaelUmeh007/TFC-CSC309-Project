@@ -4,7 +4,7 @@ import axios from "axios";
 const url = "http://127.0.0.1:8000/accounts/profile/";
 const path = "/accounts/profile/";
 
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNDY2NDY0LCJpYXQiOjE2NzA0NjI4NjQsImp0aSI6ImFjOTAyMDk3MzQ4ZjQ4MGY5MGE1NmU1NDJlNDgyZGE2IiwidXNlcl9pZCI6OH0.R9gjAvAgymLHnnUAo2XFwT2QNFlx2nT1pgrXUy3cuk0";
+let token = process.env.REACT_APP_ACCESS_TOKEN;
 
 function App() {
     const [post, setPost] = useState(null);
