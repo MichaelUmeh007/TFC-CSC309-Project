@@ -18,7 +18,7 @@ const StudioList = (props) => {
     const filterPath = "/studios/filter"
 
     // Fetches a page of studios from the backend
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTUxNjcxLCJpYXQiOjE2NzA1NDgwNzEsImp0aSI6IjU2NjUzNDIwZjNhYjQ4YzBiZDZmYmZiNGRkNjQ1ODYyIiwidXNlcl9pZCI6M30.d_-oE_kxbTm0BwFjs5MxCI5dKXQc8TnlKFDlhhqj_do";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTU4MDk2LCJpYXQiOjE2NzA1NTQ0OTYsImp0aSI6ImI1NzhhNjc4M2FlYjQwN2Q4YTI4YzU4ZmNjYTEyMWQ1IiwidXNlcl9pZCI6M30.kKiwCQjdXZpjALFHCvMc7cV0RXjEqh7gvupbuwYEG-g";
     const getStudios = async () => {
         // If there is no search query, send a request to get ALL studios
         let response = {};

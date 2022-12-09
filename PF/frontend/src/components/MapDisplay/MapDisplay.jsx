@@ -33,6 +33,8 @@ const MapDisplay = (props) => {
             center: [lng, lat],
             zoom: zoom
         });
+
+
     });
 
     // Update coordinates as user interacts with the map
@@ -48,7 +50,7 @@ const MapDisplay = (props) => {
         });
     });
 
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTUxNjcxLCJpYXQiOjE2NzA1NDgwNzEsImp0aSI6IjU2NjUzNDIwZjNhYjQ4YzBiZDZmYmZiNGRkNjQ1ODYyIiwidXNlcl9pZCI6M30.d_-oE_kxbTm0BwFjs5MxCI5dKXQc8TnlKFDlhhqj_do";
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTU4MDk2LCJpYXQiOjE2NzA1NTQ0OTYsImp0aSI6ImI1NzhhNjc4M2FlYjQwN2Q4YTI4YzU4ZmNjYTEyMWQ1IiwidXNlcl9pZCI6M30.kKiwCQjdXZpjALFHCvMc7cV0RXjEqh7gvupbuwYEG-g";
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;
         const config = {
@@ -80,11 +82,10 @@ const MapDisplay = (props) => {
                          address={studio.address}
                          directions={studio.directions}
                          postalCode={studio.postal_code}
-                         amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
+                         amenities={studio.amenities}
                          cardCloseHandler={props.closeCard}
             />}
             <div ref={mapContainer} className="map-container" />
-            {/* Need to make the code below use a portal, make it a modal */}
             
         </StyledMapDisplay>
 
