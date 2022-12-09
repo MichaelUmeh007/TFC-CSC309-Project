@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledClassItem = styled.div`
+font-family: 'Alexandria', sans-serif;
     border-left: 5px solid DarkOrange;
     border-right: none;
     border-top: none;

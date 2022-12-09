@@ -102,3 +102,9 @@ button {
 /* End of tabs styling */
 
 
+.tabTitle {
+    font-family: 'Alexandria', sans-serif;
+    font-weight: bold;
+    font-size: 2em;
+    text-align: center;
+}

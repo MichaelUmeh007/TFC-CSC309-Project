@@ -1,9 +1,10 @@
 // This is a placeholder for the dynamic button!
 import React, { useEffect, useState } from "react";
+import { StyledChangePlanButton } from "./PlanButton.styled";
 import axios from "axios";
 
-const url = "http://127.0.0.1:8000/accounts/profile/";
-const path = "/accounts/profile/";
+const url = "http://127.0.0.1:8000";
+const path = "/subscriptions/my-subscription/";
 
 let token = process.env.REACT_APP_ACCESS_TOKEN;
 
@@ -16,15 +17,15 @@ function App() {
         }
     }
     useEffect(() => {
-        axios.get(url, config).then((response) => {
-            setPost(response.data);
+        axios.get(`${url}${path}`, config).then((response) => {
+            setPost(response.data["subscription"]);
         });
     }, []);
 
-    if (!post) return (<p>UserNotFound</p>);
+    if (!post) return (<StyledChangePlanButton> Join Today! </StyledChangePlanButton>);
 
     return (
-        <>{post.first_name} {post.last_name}</>
+        <StyledChangePlanButton> Change Plan </StyledChangePlanButton>
     );
 }
 

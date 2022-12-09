@@ -3,13 +3,16 @@
 import { useState } from "react";
 import "./index.css";
 import * as Styles from "./Home.styles";
+import PlanButton from "../../components/SubscriptionContext/PlanButton";
+import CurrentPlanText from "../../components/SubscriptionContext/CurrentPlanText";
 
 
 function SubscriptionPanel() {
   return (
     <div className="container">
         <Styles.StyledSubscriptionTitle>Current Plan</Styles.StyledSubscriptionTitle>
-        <Styles.StyledChangePlanButton> Change Plan </Styles.StyledChangePlanButton>
+        <CurrentPlanText/>
+        <PlanButton/>
     </div>
   );
 }

@@ -25,10 +25,14 @@ export const StyledChangePlanButton = styled.button`
   background-color: DarkOrange;
   color: white;
   font-size: 20px;
-  padding: 10px 60px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 5px;
-  margin: 10px 0px;
   cursor: pointer;
+  width: 80%;
+  height: 35px;
 `
 
 export const StyledSubscriptionTitle = styled.h1`

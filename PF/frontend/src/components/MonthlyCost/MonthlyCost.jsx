@@ -16,15 +16,22 @@ function App() {
     }
     useEffect(() => {
         axios.get(url, config).then((response) => {
-            setPost(response.data);
+            var appData = response.data["results"];
+            var typeToSeek = "monthly";
+            var filteredAppData = appData.filter(({
+                type
+            }) => (type == "monthly") );
+            setPost(filteredAppData[0]);
+            console.log(filteredAppData);
         });
     }, []);
 
-    if (!post) return (<p>UserNotFound</p>);
-
-    return (
-        <>{post.results[0]["cost"]}</>
-    );
+    if (!post) {
+        return (<>PriceNotFound</>);
+    }
+    else {
+        return ( <>{post["cost"]}</> );
+    }
 }
 
 export default App;

@@ -19,13 +19,13 @@ function Tabs() {
           className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(1)}
         >
-          Upcoming Classes
+          <span className="tabTitle">Upcoming Classes</span>
         </button>
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
         >
-          Past Classes
+          <span className="tabTitle">Past Classes</span>
         </button>
       </div>
 
