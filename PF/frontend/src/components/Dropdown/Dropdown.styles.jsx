@@ -23,7 +23,7 @@ export const ProfilePic = styled.img`
     cursor: pointer;
   }
   position: absolute;
-  top: 10px;
+  top: 20%;
   right: 40px;
   height: 60px;
   width: 60px;
@@ -58,7 +58,7 @@ export const DropdownMenu = styled.div`
   background-color: black;
   border-radius: 8px;
   padding: 10px 20px;
-  width: 200px;
+  width: 270px;
   color: white;
 `;
 

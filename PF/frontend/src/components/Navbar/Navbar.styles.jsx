@@ -9,4 +9,5 @@ export const StyledNav = styled.nav`
   height: 10%;
   display: flex;
   align-items: center;
+  z-index: 100;
 `;

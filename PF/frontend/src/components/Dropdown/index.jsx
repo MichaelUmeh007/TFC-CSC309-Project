@@ -9,9 +9,8 @@ import {
   StyledLI,
   DropdownLink,
 } from "./Dropdown.styles";
-import { useSignOut } from 'react-auth-kit'
+import { useSignOut } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
-
 
 const Dropdown = () => {
   // state hook for dropdown being open or closed
@@ -21,11 +20,11 @@ const Dropdown = () => {
   const signOut = useSignOut();
   const navigate = useNavigate();
 
-  const handleLogout = (e) =>{
-    console.log("logged out")
+  const handleLogout = (e) => {
+    console.log("logged out");
     signOut();
-    navigate("/landing")
-  }
+    navigate("/landing");
+  };
 
   let menuRef = useRef();
 
@@ -46,7 +45,10 @@ const Dropdown = () => {
   });
 
   return (
-    <div className="Dropdown">
+    <div
+      className="Dropdown"
+      style={{ position: "absolute", right: "2%", top: "15%" }}
+    >
       {/* TODO: check if backend profile has image, if not give default image */}
       <div className="menu-container" ref={menuRef}>
         {/* profile picture button that opens dropdown with onclick function that sets state*/}
@@ -65,7 +67,7 @@ const Dropdown = () => {
               onClick={() => navigate("/profile")}
             />
             <DropdownItem text={"Manage Subscription"} url={"/subscriptions"} />
-            <DropdownItem text={"Logout"} click={handleLogout}/>
+            <DropdownItem text={"Logout"} click={handleLogout} />
           </StyledUL>
         </DropdownMenu>
       </div>
@@ -76,7 +78,7 @@ const Dropdown = () => {
 function DropdownItem(props) {
   return (
     <StyledLI onClick={props.click} className="dropdownItem">
-      <DropdownLink  to={props.url}>{props.text}</DropdownLink>
+      <DropdownLink to={props.url}>{props.text}</DropdownLink>
     </StyledLI>
   );
 }
