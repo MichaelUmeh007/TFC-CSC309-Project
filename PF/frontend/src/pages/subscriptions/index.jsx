@@ -238,7 +238,7 @@ const Subscriptions = () => {
           }}
         >
           {/* modal */}
-          <div className="modal" style={{paddingRight: "10%"}}>
+          <div className="modal" style={{ paddingRight: "10%" }}>
             <StyledButton className="cancel-button" onClick={openCancelModal}>
               Cancel Membership
             </StyledButton>
@@ -246,7 +246,9 @@ const Subscriptions = () => {
         </div>
       </CancellationDiv>
 
-      <div style={{padding: "50px", position:"absolute", top: "1200px"}}></div>
+      <div
+        style={{ padding: "50px", position: "absolute", top: "1200px" }}
+      ></div>
 
       {/* monthly modal */}
       <Modal
@@ -277,8 +279,6 @@ const Subscriptions = () => {
         joinFunction={handleCancelSub}
         confirmMsg={"Yes, Cancel"}
       />
-
-      
     </StyledBody>
   );
 };

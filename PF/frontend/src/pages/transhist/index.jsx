@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { BoxDiv, BoxHeader, BoxText } from "./Transactions.styles";
+import { BoxDiv, BoxHeader, BoxText, StyledLi } from "./Transactions.styles";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import { useEffect } from "react";
@@ -13,7 +13,10 @@ function Transactions() {
   // state for transaction history
   const [transactionHist, setTransactionHist] = useState([]);
   // state for next payment
-  const [nextPayment, setNextPayment] = useState({});
+  const [nextPayment, setNextPayment] = useState({
+    amount: null,
+    timestamp: null,
+  });
 
   const authheader = useAuthHeader();
   // function for transaction history call
@@ -36,6 +39,22 @@ function Transactions() {
     getHist();
   });
 
+  let nextMsg;
+  if (nextPayment.amount === null && nextPayment.timestamp === null) {
+    nextMsg = (
+      <BoxText className="nonext">You do not have an upcoming payment.</BoxText>
+    );
+  } else {
+    const timestamp = nextPayment.timestamp.split("T");
+    nextMsg = (
+      <BoxText className="nextmsg">
+        Your next payment is on {timestamp[0]}, at {timestamp[1]}. <br></br>{" "}
+        <br></br>
+        You will be charged ${nextPayment.amount}.
+      </BoxText>
+    );
+  }
+
   return (
     <StyledBody>
       <h1
@@ -55,12 +74,13 @@ function Transactions() {
         <BoxHeader>Transaction History:</BoxHeader>
         <BoxDiv>
           <BoxText>
-            <span style={{ position: "relative", left: "2%" }}>Date</span>
-            <span style={{ position: "relative", left: "86%" }}>Amount($)</span>
+            <span style={{ position: "relative", left: "2%" }}>
+              Date: (oldest->newest)
+            </span>
+            <span style={{ position: "relative", left: "72%" }}>Amount($)</span>
           </BoxText>
           <div
             style={{
-              backgroundColor: "lightblue",
               height: "90%",
               width: "100%",
               position: "relative",
@@ -68,7 +88,22 @@ function Transactions() {
               padding: "0",
               overflowY: "scroll",
             }}
-          ></div>
+          >
+            {transactionHist.map((payment) => {
+              return (
+                <div key={payment.timestamp}>
+                  <ul style={{ listStyleType: "none" }}>
+                    <StyledLi>
+                      {payment.timestamp}{" "}
+                      <span style={{ position: "absolute", right: "2%" }}>
+                        ${payment.amount}
+                      </span>
+                    </StyledLi>
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
         </BoxDiv>
       </div>
       <div
@@ -81,9 +116,8 @@ function Transactions() {
         }}
       >
         <BoxHeader className="next">Next Payment:</BoxHeader>
-        <BoxDiv></BoxDiv>
+        <BoxDiv>{nextMsg}</BoxDiv>
       </div>
-      <div style={{ padding: "50px" }}></div>
     </StyledBody>
   );
 }
