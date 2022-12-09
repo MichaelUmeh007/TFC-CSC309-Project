@@ -12,41 +12,55 @@ import { useAuthHeader } from "react-auth-kit";
 const StudioList = (props) => {
     // State that keeps track of the current list of studios being rendered
     const [studios, setStudios] = useState([]);
-    const [searchQuery, setSearchQuery] = useState(null);
     const authheader = useAuthHeader();
 
     // Consider making this a global with context
     const url = "http://127.0.0.1:8000";
     const allPath = "/studios/all/";    // This could be default page1 request? or we make state for path
-    const filterPath = "/studios/filter/"
+    const filterPath = "/studios/filter"
 
     // Fetches a page of studios from the backend
     const getStudios = async () => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json", 
-                Authorization: `${authheader()}`,
-                withCredentials: false
-            }
-        }
-
         // If there is no search query, send a request to get ALL studios
         let response = {};
-        if (!searchQuery) {
+        if (!props.searchValue) {
+            const config = {
+                headers: {
+                    "Content-Type": "application/json", 
+                    Authorization: `${authheader()}`,
+                    withCredentials: false
+                }
+            }
+
             response = await axios.get(`${url}${allPath}`, config);
+            setStudios(response.data);
         } else {
             // If there is a search query, make a request to the filter endpoint
-            response = await axios.get(`${url}${filterPath}`, {params: searchQuery}, config);
+            const queryParams = {};
+            queryParams[props.searchQuery] = props.searchValue;
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json", 
+                    Authorization: `${authheader()}`,
+                    withCredentials: false
+                },
+                params: queryParams
+            }
+            
+            // Only render a response of studios if there's a non-empty list
+            response = await axios.get(`${url}${filterPath}`, config);
+            console.log(response);
+            if (response.data.results) {
+                setStudios(response.data.results);
+            } 
         }
-        
-        setStudios(response.data);
     }
 
-    // Fetches and re-renders the next page of stores when user changes page number
+    // Fetches and re-renders the list of studios as the user makes a search
     useEffect(() => {
-        // Make another axios request to get the next page of data
         getStudios();
-    }, [searchQuery]);
+    }, [props.searchValue]);
 
     return(
         <StyledStudioList>

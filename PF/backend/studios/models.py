@@ -29,7 +29,7 @@ class Image(models.Model):
     images = models.ImageField(upload_to="images/") 
         
 class Amenity(models.Model):
-    studio = models.ForeignKey(Studio, on_delete=models.CASCADE)
+    studio = models.ForeignKey(Studio, on_delete=models.CASCADE, related_name='amenities')
     type = models.CharField(max_length=255)
     quantity = models.PositiveIntegerField()
 

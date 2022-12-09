@@ -35,6 +35,8 @@ const MapDisplay = (props) => {
             center: [lng, lat],
             zoom: zoom
         });
+
+
     });
 
     // Update coordinates as user interacts with the map
@@ -68,11 +70,10 @@ const MapDisplay = (props) => {
     // TODO: this doesn't re-render properly when studio is changed
     useEffect(() => {
         getStudioById();    
-    }, [props.cardOpen, studio]);
+    }, [props.cardOpen]);
 
     // TODO: Make studios return amenities or make view for queries to amenities
     // TODO: Figure out how to display images
-    // TODO: Look up phone number formatter (library) for rect
 
     return (
         <StyledMapDisplay>
@@ -83,11 +84,10 @@ const MapDisplay = (props) => {
                          address={studio.address}
                          directions={studio.directions}
                          postalCode={studio.postal_code}
-                         amenities={[{ id: 1, type: "Massage Room"}, { id: 2, type: "Washrooms"}]}
+                         amenities={studio.amenities}
                          cardCloseHandler={props.closeCard}
             />}
             <div ref={mapContainer} className="map-container" />
-            {/* Need to make the code below use a portal, make it a modal */}
             
         </StyledMapDisplay>
 
