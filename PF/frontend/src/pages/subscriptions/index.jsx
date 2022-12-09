@@ -53,7 +53,7 @@ const Subscriptions = () => {
   // function to get user subscription
   const getSub = async () => {
     const response = await axios.get(
-      "http://127.0.0.1:8000/subscriptions/my-subscription",
+      "http://127.0.0.1:8000/subscriptions/my-subscription/",
       {
         headers: {
           "Content-Type": "application/json",
@@ -62,39 +62,75 @@ const Subscriptions = () => {
         withCredentials: false,
       }
     );
-    console.log(response.data);
+    setUserSub(response.data.subscription);
   };
+
+  // function to set user subscription
+  const setSub = async (newSub) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/subscriptions/subscribe/",
+        JSON.stringify({ type: newSub }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authheader()}`,
+          },
+          withCredentials: false,
+        }
+      );
+      // if the request succeeds, then set the usersub to the passed in value
+      setUserSub(newSub);
+      // create a success toast
+      notifySubscriptionSuccess("Sucessfully Subscribed!");
+    } catch (error) {
+      // if error occurs, create an error toast with the error msg
+      notifyError(error.response.data.error);
+    }
+  };
+
+  const cancelSub = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/subscriptions/cancel/",
+        JSON.stringify({}),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authheader()}`,
+          },
+          withCredentials: false,
+        }
+      );
+      // if request succeeds, set the usersub to none
+      setUserSub("none");
+      // create a success toast
+      notifySubscriptionSuccess("Sucessfully Cancelled.");
+    } catch (error) {
+      console.log(error.response);
+      // if error occurs, create an error toast with the error msg
+      notifyError(error.response.data.error);
+    }
+  };
+
   //useEffect to set the initial state of the user subscription
   useEffect(() => {
     getSub();
-  }, []);
+  });
 
   // join monthly button handler
   const handleMonthlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to monthly
-    // handle the credit card + credit card expired + already subscribed case by
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifySubscriptionSuccess("Sucessfully Subscribed!");
-    setUserSub("monthly");
+    setSub("monthly");
   };
 
   // join yearly button handler
   const handleYearlySub = () => {
-    // TODO: MAKE API CALLS
-    // make the API call to change subscription to yearly
-    // handle the credit card + credit card expired + already subscribed case by calling notify
-    // if successful register, call the mysubscription API call, then call setUserSubscription (or whatever) to whatever the API call returns and return a success message
-    notifyError("youre mom");
+    setSub("yearly");
   };
 
   // cancel button handler
   const handleCancelSub = () => {
-    // TODO: make cancel api call
-    // error handling: user doesn't have a subscription
-    // if successful, call the mysubscription API call and setState to what it returns (none), return success message
-    notifySubscriptionSuccess("Sucessfully Cancelled Membership!");
-    setUserSub("none");
+    cancelSub();
   };
 
   // render for message at the top
@@ -321,3 +357,5 @@ const Subscriptions = () => {
     </StyledBody>
   );
 };
+
+export default Subscriptions;

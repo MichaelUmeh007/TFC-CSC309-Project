@@ -71,7 +71,7 @@ class SubscribeView(APIView):
 
             # check if the user has a card added
             if guser.payment_info == None:
-                return Response({"error": "Please add payment information before subscribing"}, status=400)
+                return Response({"error": "Please add payment information before subscribing."}, status=400)
 
             # get expiry date of the card
             card_expiry_list = str(guser.payment_info.cc_expiry).split("-")
@@ -79,7 +79,7 @@ class SubscribeView(APIView):
             card_expired = timezone.now().date() > card_expiry_date
             # check if the card is expired
             if card_expired:
-                return Response({"error": "Your card has expired, please update your card info"}, status=400)
+                return Response({"error": "Your card has expired, please update your card info."}, status=400)
 
             # all transactions of the user
             transactions = Transaction.objects.filter(user=guser)
@@ -97,7 +97,7 @@ class SubscribeView(APIView):
             current_subscription = guser.subscription
             # check if the user is already subscribed to that plan
             if new_subscription == current_subscription:
-                return Response({"error": "You are already subscribed to this plan"}, status=400)
+                return Response({"error": "You are already subscribed to this plan."}, status=400)
             
             # create/updates new transactions (payments), first transaction is immediately after request is sent
 
@@ -191,7 +191,7 @@ class CancelSubscriptionsView(APIView):
             transactions.filter(timestamp__gte=timezone.now()).delete()
         else:
             # there is no current subscription, return an error
-            return Response({"error": "User subscription doesn't exist"}, status=400)
+            return Response({"error": "You are not subscribed."}, status=400)
         # set user's current subscription to None
         guser.subscription = None
         guser.save()
