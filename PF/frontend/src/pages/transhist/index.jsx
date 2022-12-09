@@ -37,14 +37,17 @@ function Transactions() {
 
   useEffect(() => {
     getHist();
+    console.log("useeffect call");
   });
 
   let nextMsg;
   if (nextPayment.amount === null && nextPayment.timestamp === null) {
+    console.log("check1");
     nextMsg = (
       <BoxText className="nonext">You do not have an upcoming payment.</BoxText>
     );
   } else {
+    console.log("check2");
     const timestamp = nextPayment.timestamp.split("T");
     nextMsg = (
       <BoxText className="nextmsg">
@@ -77,7 +80,7 @@ function Transactions() {
             <span style={{ position: "relative", left: "2%" }}>
               Date: (oldest->newest)
             </span>
-            <span style={{ position: "relative", left: "72%" }}>Amount($)</span>
+            <span style={{ position: "absolute", right: "4%" }}>Amount($)</span>
           </BoxText>
           <div
             style={{
