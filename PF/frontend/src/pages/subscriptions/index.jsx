@@ -7,13 +7,11 @@ import {
   StyledH3,
   StyledSpan,
   StyledButton,
-  FineText,
   FineTextContainer,
   CancellationDiv,
 } from "./Subscriptions.styles";
 import { useState, useEffect } from "react";
 import { Modal } from "../../components/Modal";
-import { GlobalStyle } from "../../globalStyles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
@@ -68,7 +66,7 @@ const Subscriptions = () => {
   // function to set user subscription
   const setSub = async (newSub) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/subscriptions/subscribe/",
         JSON.stringify({ type: newSub }),
         {
@@ -91,7 +89,7 @@ const Subscriptions = () => {
 
   const cancelSub = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/subscriptions/cancel/",
         JSON.stringify({}),
         {
