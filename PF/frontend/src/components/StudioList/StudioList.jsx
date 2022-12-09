@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyledStudioList } from "./StudioList.styled";
 import StudioItem from "../StudioItem/StudioItem";
 import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
 
 // Query all the studios
 // Use a map probably to display info for each studio (paginate it - maybe 5 studios at a time)
@@ -12,6 +13,7 @@ const StudioList = (props) => {
     // State that keeps track of the current list of studios being rendered
     const [studios, setStudios] = useState([]);
     const [searchQuery, setSearchQuery] = useState(null);
+    const authheader = useAuthHeader();
 
     // Consider making this a global with context
     const url = "http://127.0.0.1:8000";
@@ -19,12 +21,12 @@ const StudioList = (props) => {
     const filterPath = "/studios/filter/"
 
     // Fetches a page of studios from the backend
-    let token = process.env.REACT_APP_ACCESS_TOKEN;
     const getStudios = async () => {
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json", 
+                Authorization: `${authheader()}`,
+                withCredentials: false
             }
         }
 

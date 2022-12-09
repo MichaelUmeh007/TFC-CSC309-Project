@@ -2,23 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { StyledPlanTitle, StyledNoPlanTitle } from "./PlanButton.styled";
 import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
 
 const url = "http://127.0.0.1:8000";
 const path = "/subscriptions/my-subscription/";
 
-let token = process.env.REACT_APP_ACCESS_TOKEN;
-
 function App() {
     const [post, setPost] = useState([]);
+    const authheader = useAuthHeader();
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json", 
+            Authorization: `${authheader()}`,
+            withCredentials: false
         }
     }
     useEffect(() => {
         axios.get(`${url}${path}`, config).then((response) => {
-            setPost(response.data["subscription"]);
+            setPost(response.data);
         });
     }, []);
 
@@ -27,10 +28,9 @@ function App() {
     }
     else {
         return (
-            <StyledPlanTitle> { post } </StyledPlanTitle>
+            <StyledPlanTitle> { "$" + post["subscription_cost"] + "/" + post["subscription"] } </StyledPlanTitle>
         );
     }
-    
 }
 
 export default App;

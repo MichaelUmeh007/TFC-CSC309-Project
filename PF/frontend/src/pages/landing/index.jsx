@@ -5,7 +5,7 @@ import logo from "../../TFC_logo.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
-import MonthlyCost from "../../components/MonthlyCost/MonthlyCost";
+import MonthlyCost from "../../components/SubscriptionContext/MonthlyCost";
 import './index.css';
 
 const StyledBody = styled.body`
@@ -30,7 +30,7 @@ const StyledHeaderText = styled.h1`
     text-decoration: none; 
     margin: 20px;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: 'Alexandria', sans-serif;
     text-align: center;
     font-size: 4em;
 `
@@ -48,7 +48,7 @@ const StyledParagraph = styled.p`
     text-decoration: none;
     margin: 0px 20%;
     // margin-right: 40%;
-    font-family: sans-serif;
+    font-family: 'Alexandria', sans-serif;
     font-weight: 200;
     font-size: 2em;
     text-align: center;
@@ -113,7 +113,7 @@ function Landing() {
                 <StyledParagraph>Subscription plans start at
                     $<MonthlyCost/>/month.
                 </StyledParagraph>
-                <StyledParagraph> Sign-up now and get <span style={{ fontWeight: '400' }}>1 month free</span> on us!</StyledParagraph>
+                <StyledParagraph> Sign-up now and get <span style={{ fontWeight: 'bold' }}>1 month free</span> on us!</StyledParagraph>
                 
             </StyledHeaderContainer>
             <StyledContentBodyContainer>

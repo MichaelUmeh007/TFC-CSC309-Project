@@ -6,13 +6,13 @@ export const StyledChangePlanButton = styled.button`
   background-color: DarkOrange;
   color: white;
   font-size: 20px;
-  margin-top: 0px;
-  margin-bottom: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
   cursor: pointer;
-  width: 80%;
+  width: 200px;
   height: 35px;
 `
 

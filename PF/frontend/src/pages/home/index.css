@@ -36,6 +36,19 @@
     border: 1px solid rgba(0, 0, 0, 0.274);
 }
 
+.subContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 80%;
+    height: 100%;
+    background: #f1f1f1;
+    margin: 100px auto;
+    padding-bottom: 20px;
+    word-break: break-all;
+    border: 1px solid rgba(0, 0, 0, 0.274);
+}
+
 .bloc-tabs {
     display: flex;
 }

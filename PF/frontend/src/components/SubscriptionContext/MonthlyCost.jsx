@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useAuthHeader } from "react-auth-kit";
 import axios from "axios";
 
 const url = "http://127.0.0.1:8000/subscriptions/options/";
 const path = "/subscriptions/options/";
 
-let token = process.env.REACT_APP_ACCESS_TOKEN;
-
 function App() {
     const [post, setPost] = useState(null);
+    const authheader = useAuthHeader();
     const config = {
         headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            Authorization: `${authheader()}`,
+            "Content-Type": "application/json",
+            withCredentials: false
         }
     }
     useEffect(() => {
