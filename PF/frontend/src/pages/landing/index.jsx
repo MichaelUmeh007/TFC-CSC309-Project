@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import StyledLogo from "../../components/logo";
+import StyledLogo from "../../components/Logo";
 import StyledLink from "../../components/Common/Link";
-import logo from "../../../src/TFC_logo.png"
+import logo from "../../TFC_logo.png"
 import sanitizationIcon from "../../../src/health_icon.png"
 import coachesIcon from "../../../src/coaches_icon.png"
 import accessibilityIcon from "../../../src/shoes_icon.png"
@@ -29,7 +29,7 @@ const StyledHeaderText = styled.h1`
     text-decoration: none; 
     margin: 20px;
     font-weight: bold;
-    font-family: 'Alexandria', sans-serif;
+    font-family: sans-serif;
     text-align: center;
     font-size: 4em;
 `
@@ -47,7 +47,7 @@ const StyledParagraph = styled.p`
     text-decoration: none;
     margin: 0px 20%;
     // margin-right: 40%;
-    font-family: 'Alexandria', sans-serif;
+    font-family: sans-serif;
     font-weight: 200;
     font-size: 2em;
     text-align: center;
