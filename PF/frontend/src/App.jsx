@@ -3,11 +3,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./pages/layout";
 import Home from "./pages/home";
 import Studios from "./pages/studios/Studios";
-<<<<<<< HEAD
 import Subscriptions from "./pages/subscriptions";
-=======
-import Subscrptions from "./pages/subscriptions";
->>>>>>> 9ac5ae4b68f1b675bc32aac58c1d92cc9569c0c9
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Profile from "./pages/profile";
@@ -43,14 +39,6 @@ function App() {
                   </RequireAuth>
                 }
               />
-<<<<<<< HEAD
-
-              <Route
-                path="studios"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <Studios />
-=======
 
               <Route
                 path="studios"
@@ -62,27 +50,19 @@ function App() {
               />
 
               <Route
-                path="subscriptions"
-                element={
-                  <RequireAuth loginPath="/login">
-                    <Subscrptions />
->>>>>>> 9ac5ae4b68f1b675bc32aac58c1d92cc9569c0c9
-                  </RequireAuth>
-                }
-              />
-
-              <Route
-<<<<<<< HEAD
                 path="subscriptions"
                 element={
                   <RequireAuth loginPath="/login">
                     <Subscriptions />
-=======
+                  </RequireAuth>
+                }
+              />
+
+              <Route
                 path="transactions"
                 element={
                   <RequireAuth loginPath="/login">
                     <Transactions />
->>>>>>> 9ac5ae4b68f1b675bc32aac58c1d92cc9569c0c9
                   </RequireAuth>
                 }
               />
