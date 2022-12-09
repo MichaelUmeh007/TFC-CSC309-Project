@@ -10,6 +10,7 @@ import Profile from './pages/profile';
 import { AuthProvider, RequireAuth } from 'react-auth-kit'
 import "./App.css";
 import Landing from "./pages/landing";
+import Classes from './pages/classes';
 
 function App() {
   return (
@@ -36,6 +37,12 @@ function App() {
             <Route path='studios' element={
               <RequireAuth loginPath='/login'>
                   <Studios />
+              </RequireAuth>
+            }/>
+  
+            <Route path='studios/:studioId/classes' element={
+              <RequireAuth loginPath='/login'>
+                <Classes />
               </RequireAuth>
             }/>
 
