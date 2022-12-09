@@ -18,6 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import axios from "axios";
+import { useAuthHeader } from "react-auth-kit";
 
 const Subscriptions = () => {
   /* TODO: create a hook that stores the state of the user's subscription, with initial value from an API call*/
@@ -47,25 +48,26 @@ const Subscriptions = () => {
   const [userSub, setUserSub] = useState("none");
 
   // auth stuff
-  const url = "http://127.0.0.1:8000";
-  const mySubPath = "/subscriptions/my-subscription"
+  const authheader = useAuthHeader();
 
-  //useEffect to set the initial state of the user subscription
-  let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTM2MTE5LCJpYXQiOjE2NzA1MzI0NzcsImp0aSI6ImNhY2U3NTg1N2RjZDQ0ODM5OGU4ZmNkYWI3YTI2MzhmIiwidXNlcl9pZCI6M30.70QXWy_VSHCVZfEGQMe-XkbNTP0gNMk1GKAht0nNkrE';
-  useEffect(() => {
-    const config = {
-      headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
+  // function to get user subscription
+  const getSub = async () => {
+    const response = await axios.get(
+      "http://127.0.0.1:8000/subscriptions/my-subscription",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authheader()}`,
+        },
+        withCredentials: false,
       }
-    }
-
-    axios.get(url + mySubPath, config).then((response) => {
-      console.log(response.data["subscription"])
-    })
-  }, [])
-  
-
+    );
+    console.log(response.data);
+  };
+  //useEffect to set the initial state of the user subscription
+  useEffect(() => {
+    getSub();
+  }, []);
 
   // join monthly button handler
   const handleMonthlySub = () => {
@@ -319,15 +321,3 @@ const Subscriptions = () => {
     </StyledBody>
   );
 };
-// helper function that will take in the user's subscription data and print it out
-function MembershipGreeting(props) {
-  return <StyledH2 className="membership-msg">Your Membership: ...</StyledH2>;
-  // props.subscription or something will be passed in and then printed
-}
-function NoMembershipGreeting() {
-  return (
-    <StyledH2 className="membership-msg">Select Your TFC Membership</StyledH2>
-  );
-}
-
-export default Subscriptions;
