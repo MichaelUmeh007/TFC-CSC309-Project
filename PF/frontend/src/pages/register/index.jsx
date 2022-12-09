@@ -17,6 +17,7 @@ import {
     faInfoCircle,
   } from "@fortawesome/free-solid-svg-icons";
 import validator from "validator";
+import { useIsAuthenticated } from "react-auth-kit";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -79,6 +80,7 @@ function Register(){
     // For redirection after a successful login
     const navigate = useNavigate();
     // add auth to this after its set up to redirect authenticated users to home page when they navigate here
+    const isAuthenticated = useIsAuthenticated();
 
     // error clearing
     function clear_err(){
@@ -124,6 +126,13 @@ function Register(){
 
     // for backend and submission validation
     const [errormessage, setErrorMessage] = useState("");
+
+    // redirect authencicated users
+    useEffect(() => {
+        if (isAuthenticated()){
+            navigate("/");
+        }
+    })
 
     useEffect(() => {
     userRef.current?.focus();

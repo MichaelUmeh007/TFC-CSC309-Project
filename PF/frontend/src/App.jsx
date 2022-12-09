@@ -22,23 +22,43 @@ function App() {
         <Routes>
 
           <Route path='/' element={
+            <RequireAuth loginPath='/landing'>
                 <Layout />
+            </RequireAuth>
+
             }>
             <Route index element={
-              <RequireAuth loginPath='login'>
+              <RequireAuth loginPath='/login'>
                   <Home />
               </RequireAuth>
             } />
 
-            <Route path='studios' element={<Studios />} />
-            <Route path='subscriptions' element={<Subscrptions />} />
-            <Route path="landing" element={<Landing />} />
+            <Route path='studios' element={
+              <RequireAuth loginPath='/login'>
+                  <Studios />
+              </RequireAuth>
+            }/>
+
+            <Route path='subscriptions' element={
+              <RequireAuth loginPath='/login'>
+                  <Subscrptions />
+              </RequireAuth>
+            } />
+            {/* add transactions route with protection to redirect to login as well*/}
 
           </Route>
 
+            {/* non navbar routes tahat need protection */}
+          <Route path='/profile' element={
+              <RequireAuth loginPath='/login'>
+                  <Profile />
+              </RequireAuth>
+            } />
+
+          {/* unprotected routes */}
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/landing' element={<Landing />} />
           
 
           <Route path="*" element={<Navigate to="/" />} />

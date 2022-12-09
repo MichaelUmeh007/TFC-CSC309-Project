@@ -9,10 +9,23 @@ import {
   StyledLI,
   DropdownLink,
 } from "./Dropdown.styles";
+import { useSignOut } from 'react-auth-kit'
+import { useNavigate } from "react-router-dom";
+
 
 const Dropdown = () => {
   // state hook for dropdown being open or closed
   const [open, setOpen] = useState(false);
+
+  // signout functionanlity
+  const signOut = useSignOut();
+  const navigate = useNavigate();
+
+  const handleLogout = (e) =>{
+    console.log("logged out")
+    signOut();
+    navigate("/landing")
+  }
 
   let menuRef = useRef();
 
@@ -49,11 +62,10 @@ const Dropdown = () => {
             <DropdownItem
               text={"My Profile"}
               url={"/profile"}
-              onClick={console.log("hello")}
+              onClick={() => navigate("/profile")}
             />
             <DropdownItem text={"Manage Subscription"} url={"/subscriptions"} />
-            <DropdownItem text={"Logout"} url={"/"} />
-            {/* TODO: need to add handling to logout when user presses logout */}
+            <DropdownItem text={"Logout"} click={handleLogout}/>
           </StyledUL>
         </DropdownMenu>
       </div>
@@ -63,8 +75,8 @@ const Dropdown = () => {
 
 function DropdownItem(props) {
   return (
-    <StyledLI className="dropdownItem">
-      <DropdownLink to={props.url}>{props.text}</DropdownLink>
+    <StyledLI onClick={props.click} className="dropdownItem">
+      <DropdownLink  to={props.url}>{props.text}</DropdownLink>
     </StyledLI>
   );
 }

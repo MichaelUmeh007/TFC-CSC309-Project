@@ -6,6 +6,7 @@ import StyledInput from "../../components/Common/Input";
 import StyledSubmitButton from "../../components/Common/SubmitButton";
 import StyledLabel from "../../components/Common/Label";
 import StyledIcon from "../../components/Common/Icon";
+import StyledLink from "../../components/Common/Link";
 import { StyledInstructionMessage } from "../../components/Common/Messages/InstructionMessage/InstructionMessage.styles";
 import StyledImageLabel from "../../components/Common/ImageLabel";
 import StyledSuccessMessage from "../../components/Common/Messages/SuccessMessage";
@@ -20,6 +21,7 @@ import {
 import validator from "validator";
 import FormData from 'form-data'
 import logo from "../../TFC_logo.png";
+import { useAuthHeader } from "react-auth-kit";
 
 
 const FN_REGEX = /^[A-z][A-z ]{0,23}$/;
@@ -85,6 +87,8 @@ function Profile(){
     const [successmessage, setSuccessMessage] = useState("");
     const [errormessagepayment, setErrorMessageP] = useState("");
     const [successmessagepayment, setSuccessMessageP] = useState("");
+    const authheadergetter = useAuthHeader();
+    const authheader = authheadergetter();
 
     // image validation
     function isFileImage(file) {
@@ -158,15 +162,13 @@ function Profile(){
             }
         }
 
-    // for testing
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjcwNTAxMTYxLCJpYXQiOjE2NzA0OTc1NjEsImp0aSI6ImM4OWQ1ZTY4MTk4YTRhN2U5YjMyODAxNmIwNDVkZWYzIiwidXNlcl9pZCI6MTF9.DJct9QBljqTNamC7KdH4C0vWTvxFh1oRAd4_bXT51rE"
     const firstRender = () => {
         const populateUserDataAsync = async () => {
             try {
                 const response = await axios.get(
                     PROFILE_URL,
                     {
-                        headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}`},
+                        headers: { "Content-Type": "application/json",  "Authorization": `${authheader}`},
                         withCredentials: false,
                         
                     }
@@ -194,7 +196,7 @@ function Profile(){
                 const response = await axios.get(
                     PAYMENT_URL,
                     {
-                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`},
+                        headers: { "Content-Type": "application/json", "Authorization": `${authheader}`},
                         withCredentials: false,
                     }
                 )
@@ -223,7 +225,7 @@ function Profile(){
     }
 
     //
-    useEffect(firstRender, [])
+    useEffect(firstRender, [authheader])
 
     useEffect(() => {
         const result = FN_REGEX.test(firstname);
@@ -333,7 +335,7 @@ function Profile(){
 
               const response = await axios.patch(PROFILE_URL, data, {
                 headers: { "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-                            "Authorization": `Bearer ${token}`},
+                            "Authorization": `${authheader}`},
                 withCredentials: false,
               });
         
@@ -391,7 +393,7 @@ function Profile(){
 
               const response = await axios.patch(PAYMENT_URL, data, {
                 headers: { "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
-                            "Authorization": `Bearer ${token}`},
+                            "Authorization": `${authheader}`},
                 withCredentials: false,
               });
         
@@ -698,8 +700,11 @@ function Profile(){
                 {" "}
                 Update{" "}
                 </StyledSubmitButton>
-
             </StyledForm>
+
+                <span style={{display: "inline-block"}}>
+                    <StyledLink margin={"0%"} decor={1} to="/home">Return Home</StyledLink>
+                </span>
         </StyledFormSection>
     </StyledFormContainer>
     )
