@@ -22,4 +22,8 @@ export const BoxHeader = styled.p`
   left: 3%;
 `;
 
-export const BoxText = styled.p``;
+export const BoxText = styled.p`
+  margin-bottom: 5px;
+  font-family: "Alexandria", sans-serif;
+  font-weight: normal;
+`;
