@@ -18,29 +18,32 @@ function Transactions() {
     timestamp: null,
   });
 
-  const authheader = useAuthHeader();
-  // function for transaction history call
-  const getHist = async () => {
-    const response = await axios.get(
-      "http://127.0.0.1:8000/accounts/profile/payment-history/",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${authheader()}`,
-        },
-        withCredentials: false,
-      }
-    );
-    setTransactionHist(response.data.payment_history);
-    setNextPayment(response.data.next_payment);
+  const authheadergetter = useAuthHeader();
+  const authheader = authheadergetter();
+
+  const firstRender = () => {
+    // function for transaction history call
+    const getHist = async () => {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/accounts/profile/payment-history/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authheader}`,
+          },
+          withCredentials: false,
+        }
+      );
+      setTransactionHist(response.data.payment_history);
+      setNextPayment(response.data.next_payment);
+    };
+    getHist();
   };
 
-  useEffect(() => {
-    getHist();
-    console.log("useeffect call");
-  });
+  useEffect(firstRender, [authheader]);
 
   let nextMsg;
+
   if (nextPayment.amount === null && nextPayment.timestamp === null) {
     console.log("check1");
     nextMsg = (
