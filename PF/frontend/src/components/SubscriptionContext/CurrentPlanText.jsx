@@ -23,7 +23,7 @@ function App() {
         });
     }, []);
 
-    if (!post) {
+    if (post["subscription_cost"] == undefined) {
         return (<StyledNoPlanTitle> Not Currently Subscribed </StyledNoPlanTitle>);
     }
     else {

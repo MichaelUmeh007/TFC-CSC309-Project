@@ -23,11 +23,14 @@ function App() {
         });
     }, []);
 
-    if (!post) return (<StyledChangePlanButton> Join Today! </StyledChangePlanButton>);
-
-    return (
-        <StyledChangePlanButton> Change Plan </StyledChangePlanButton>
-    );
+    if (post == undefined) {
+        return (<StyledChangePlanButton> Join Today! </StyledChangePlanButton>);
+    }
+    else {
+        return (
+            <StyledChangePlanButton> Change Plan </StyledChangePlanButton>
+        );
+    }
 }
 
 export default App;
