@@ -16,6 +16,7 @@ export const StyledCard = styled.div`
     margin: 2%;
     position: absolute;
     right: 10%;
+    z-index: 100;
 
     div.flex-card {
         display: flex;

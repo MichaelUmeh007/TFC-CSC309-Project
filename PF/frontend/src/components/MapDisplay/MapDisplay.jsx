@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { StyledMapDisplay } from "./MapDisplay.styled";
 import OverlayCard from "../../components/OverlayCard/OverlayCard";
@@ -14,6 +15,20 @@ const MapDisplay = (props) => {
     // Mapbox access token for 309
     mapboxgl.accessToken = 'pk.eyJ1IjoibWF0dHlwMTIzIiwiYSI6ImNsYWo2Y3prOTAxZXMzdnFneHA3Zjh1ajUifQ.WP7ebFyD56wq50cyYoQZBQ';
 
+    // Add things to the mapbox dataset
+    const [features, setFeatures] = useState(null);
+    const getAllFeatures = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+        const username = "mattyp123";
+        const dataset_id = "clbhfyl8k0gy429mbt0n1bdan";
+        const {data} = await axios.get(`https://api.mapbox.com/datasets/v1/${username}/${dataset_id}/features?access_token=${mapboxgl.accessToken}`, config);
+        setFeatures(data.features);
+    }   
+
     const mapContainer = useRef(null);
     const map = useRef(null);
 
@@ -23,7 +38,13 @@ const MapDisplay = (props) => {
     const [lat, setLat] = useState(43.653);
     const [zoom, setZoom] = useState(12);
 
+    // useEffect(() => {
+    //     // Get all the GeoJSON features from mapbox
+    //     getAllFeatures();
+    // });
+
     // Initialize the map
+    const [renderCount, setRenderCount] = useState(0);
     useEffect(() => {
         // Make sure we don't re-initialize the map (if the ref is already coupled with a map object)
         if (map.current != null) {
@@ -36,8 +57,22 @@ const MapDisplay = (props) => {
             zoom: zoom
         });
 
+        if (renderCount === 0) {
+            getAllFeatures();
+        }
+        setRenderCount(renderCount + 1);
+    }, []);
 
-    });
+    useEffect(() => {
+        // Render custom marker components
+        if (features && renderCount === 1) {
+            console.log("hello");
+            features.forEach((feature) => {
+                console.log(feature.geometry.coordinates)
+                new mapboxgl.Marker().setLngLat(feature.geometry.coordinates).addTo(map.current);
+            });
+        }
+    }, [features, renderCount])
 
     // Update coordinates as user interacts with the map
     useEffect(() => {
@@ -50,7 +85,7 @@ const MapDisplay = (props) => {
             setLat(map.current.getCenter().lat.toFixed(4));
             setZoom(map.current.getZoom().toFixed(2));
         });
-    });
+    }, []);
 
     const getStudioById = async () => {
         const url = `http://localhost:8000/studios/${props.studioId}/details/`;

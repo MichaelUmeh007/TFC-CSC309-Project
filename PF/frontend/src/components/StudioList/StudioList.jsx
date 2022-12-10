@@ -3,6 +3,8 @@ import { StyledStudioList } from "./StudioList.styled";
 import StudioItem from "../StudioItem/StudioItem";
 import axios from "axios";
 import { useAuthHeader } from "react-auth-kit";
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Query all the studios
 // Use a map probably to display info for each studio (paginate it - maybe 5 studios at a time)
@@ -10,6 +12,9 @@ import { useAuthHeader } from "react-auth-kit";
 // If they click on another one, renders that one
 // Fix positioning of "X" close button
 const StudioList = (props) => {
+    // Mapbox GL
+    mapboxgl.accessToken = 'sk.eyJ1IjoibWF0dHlwMTIzIiwiYSI6ImNsYmhqZmIxYjBqemgzcG9jbzl3MnVmNjcifQ.row-jZM3f43-kjMHAmIg3Q';
+
     // State that keeps track of the current list of studios being rendered
     const [studios, setStudios] = useState([]);
     const authheader = useAuthHeader();
@@ -61,6 +66,47 @@ const StudioList = (props) => {
     useEffect(() => {
         getStudios();
     }, [props.searchValue]);
+
+    const addFeaturesToDataset = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+        const dataset_id = "clbhfyl8k0gy429mbt0n1bdan";
+        const username = "mattyp123";
+        if (studios) {
+            for (let studio of studios) {
+                let feature_id = studio.id;
+                const featureBody = {
+                    id: feature_id,
+                    type: "Feature",
+                    geometry: {
+                      type: "Point",
+                      coordinates: [ studio.latitude, studio.longitude ]
+                    },
+                    properties: {
+                        studio: "true"
+                    }
+                }
+                try {
+                    await axios.put(
+                        `https://api.mapbox.com/datasets/v1/${username}/${dataset_id}/features/${feature_id}?access_token=${mapboxgl.accessToken}`, 
+                    JSON.stringify(featureBody), 
+                    config);
+                } catch (err) {
+                    console.log(err);
+                }
+                
+            }
+        }        
+    }
+
+    // Only once, add all studio coordinates to the map
+    // useEffect(() => {
+    //     addFeaturesToDataset();
+    // });
+
 
     return(
         <StyledStudioList>
