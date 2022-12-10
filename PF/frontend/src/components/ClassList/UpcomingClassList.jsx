@@ -9,7 +9,7 @@ var today = new Date();
 const url = "http://127.0.0.1:8000";
 const path = "/accounts/profile/classes/";
 
-function App() {
+function App(props) {
     const [post, setPost] = useState(null);
     const authheader = useAuthHeader();
     const config = {
@@ -46,7 +46,10 @@ function App() {
                     studio_name={singleClass.studio_name}
                     start_datetime={singleClass.start_datetime}
                     end_datetime={singleClass.end_datetime}
-                    num_attending={singleClass.num_attending}/>
+                    num_attending={singleClass.num_attending}
+                    parent_class={singleClass.parent_class}
+                    action={"Drop"}
+                    actionHandler={props.dropBtnHandler}/>
             )}
         </StyledClassList>
     );

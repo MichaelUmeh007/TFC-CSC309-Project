@@ -50,7 +50,7 @@ const ClassList = (props) => {
                         end_datetime={singleClass.end_datetime}
                         num_attending={singleClass.num_attending}
                         parent_class={singleClass.parent_class}
-                        action={"enrol"}
+                        action={"Enrol"}
                         actionHandler={props.enrolBtnHandler}/>
             )}
         </StyledClassList>
@@ -153,7 +153,7 @@ const ScheduleTabs = (props) => {
 
     const [enrollments, setEnrollments] = useState(null);
     const [error, setError] = useState(null);
-    const enrolInClass = async (class_id, date) => {
+    const enrolInClass = async (class_id, date, studio_name) => {
         const url = `http://localhost:8000/studios/${props.studioId}/classes/${class_id}/enrollment/`;
         const config = {
             headers: {
@@ -176,7 +176,7 @@ const ScheduleTabs = (props) => {
             if (data.successes !== []) {
                 setEnrollments("yessss");
             } else {
-                setEnrolMessage(null);
+                setEnrollments(null);
             }
         } catch (err) {
             setError({error: "Something went wrong"});

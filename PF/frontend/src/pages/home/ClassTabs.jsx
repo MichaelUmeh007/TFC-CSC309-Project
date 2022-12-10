@@ -5,7 +5,7 @@ import "./index.css";
 import UpcomingClassList from "../../components/ClassList/UpcomingClassList";
 import PastClassList from "../../components/ClassList/PastClassList";
 
-function Tabs() {
+function Tabs(props) {
   const [toggleState, setToggleState] = useState(1);
 
   const toggleTab = (index) => {
@@ -33,7 +33,7 @@ function Tabs() {
         <div
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
-          <UpcomingClassList/>
+          <UpcomingClassList dropBtnHandler={props.dropBtnHandler} />
         </div>
 
         <div
