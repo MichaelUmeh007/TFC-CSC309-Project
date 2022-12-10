@@ -12,4 +12,20 @@ font-family: 'Alexandria', sans-serif;
     & > * {
         margin: 3%;
     }
+
+    button {
+        color: white;
+        padding: 1%;
+        background-color: #454444;
+        border: 1.5px solid #454444;
+        border-radius: 3px;
+        margin: 0% 5%;
+        margin-bottom: 3%;
+    }
+
+    button:hover {
+        background-color: #525151;
+        border 1.5px solid #525151;
+        cursor: pointer;
+    }
 `
