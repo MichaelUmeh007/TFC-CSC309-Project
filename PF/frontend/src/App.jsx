@@ -11,6 +11,7 @@ import { AuthProvider, RequireAuth } from "react-auth-kit";
 import "./App.css";
 import Landing from "./pages/landing";
 import Transactions from "./pages/transhist";
+import Classes from './pages/classes';
 
 function App() {
   return (
@@ -68,6 +69,19 @@ function App() {
               />
               {/* add transactions route with protection to redirect to login as well*/}
             </Route>
+            <Route path='studios' element={
+              <RequireAuth loginPath='/login'>
+                  <Studios />
+              </RequireAuth>
+            }/>
+  
+            <Route path='studios/:studioId/classes' element={
+              <RequireAuth loginPath='/login'>
+                <Classes />
+              </RequireAuth>
+            }/>
+
+            {/* add transactions route with protection to redirect to login as well*/}
 
             {/* non navbar routes tahat need protection */}
             <Route

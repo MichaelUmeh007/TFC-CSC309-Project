@@ -25,5 +25,5 @@ class ClassOccurrenceSerializer(serializers.ModelSerializer):
     studio_name = serializers.CharField(source='parent_class.studio.name')
     class Meta:
         model = ClassOccurrence
-        exclude = ['id', 'parent_class']        # Exclude fields that we don't want to show the user
+        exclude = []        # Exclude fields that we don't want to show the user
 
